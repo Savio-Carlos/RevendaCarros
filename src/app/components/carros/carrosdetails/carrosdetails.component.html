@@ -1,1 +1,43 @@
-<p>carrosdetails works!</p>
+<div class="container py-5">
+  <div *ngIf="carro; else notFound">
+    <div class="row">
+      <div class="col-lg-7">
+        <img [src]="carro.fotoUrl" class="img-fluid rounded shadow-sm w-100" [alt]="carro.modelo">
+      </div>
+      <div class="col-lg-5">
+        <span class="badge bg-danger mb-2">{{ carro.marca }}</span>
+        <h1 class="display-5 fw-bold">{{ carro.modelo }}</h1>
+        <p class="fs-5 text-muted">{{ carro.ano }} · {{ carro.kms | number }} km</p>
+        <p class="display-4 fw-bold text-success">R$ {{ carro.preco | number:'1.0-0' }}</p>
+
+        <ul class="list-group list-group-flush my-4">
+          <li class="list-group-item d-flex justify-content-between">
+            <strong>Combustível:</strong>
+            <span>{{ carro.combustivel }}</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <strong>Câmbio:</strong>
+            <span>{{ carro.cambio }}</span>
+          </li>
+        </ul>
+
+        <div class="d-grid gap-2">
+        <button class="btn btn-success btn-lg" (click)="openContactModal()">
+            <i class="bi bi-whatsapp"></i> Entrar em contato com vendedor
+        </button>
+          <a routerLink="/principal/carros" class="btn btn-outline-dark">
+            Voltar para a lista
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #notFound>
+  <div class="text-center py-5">
+    <h2 class="display-4">Carro não encontrado</h2>
+    <p>O carro que você está procurando não existe.</p>
+    <a routerLink="/carros" class="btn btn-primary">Voltar para a lista</a>
+  </div>
+</ng-template>

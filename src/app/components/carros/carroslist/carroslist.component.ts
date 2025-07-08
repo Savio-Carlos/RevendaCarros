@@ -4,11 +4,11 @@ import { CarroService } from '../../../services/carro.service';
 import { Carro } from '../../../models/carro';
 import { CommonModule } from '@angular/common';    
 import { FormsModule } from '@angular/forms';                 
-import { RouterModule } from '@angular/router';           
+import { RouterModule, RouterLink } from '@angular/router';           
 
 @Component({
   // Add CarrosfilterComponent here
-  imports: [FormsModule, CommonModule, RouterModule, CarrosfilterComponent],
+  imports: [FormsModule, CommonModule, RouterModule, CarrosfilterComponent, RouterLink],
   selector: 'app-carros-list',
   templateUrl: './carroslist.component.html',
 })

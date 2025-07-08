@@ -57,6 +57,17 @@ const MOCK_CARROS: Carro[] = [
     combustivel: 'Flex',
     cambio: 'Automático',
     fotoUrl: 'assets/images/cross.png'
+  },
+  {
+    id: 6,
+    modelo: 'Corolla Cross XRE',
+    marca: 'Toyota',
+    ano: 2023,
+    preco: 177000,
+    kms: 12000,
+    combustivel: 'Flex',
+    cambio: 'Automático',
+    fotoUrl: 'assets/images/cross.png'
   }
 ];
 
@@ -66,5 +77,10 @@ export class CarroService {
 
   getAll(): Observable<Carro[]> {
     return of(MOCK_CARROS);
+  }
+
+    getById(id: number): Observable<Carro | undefined> {
+    const carro = MOCK_CARROS.find(c => c.id === id);
+    return of(carro);
   }
 }

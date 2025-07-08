@@ -1,0 +1,68 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Tenho Interesse!</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+
+<div class="modal-body">
+  <p>Por favor, preencha seus dados e um de nossos vendedores entrará em contato em breve.</p>
+  <form #contactForm="ngForm">
+    <div class="mb-3">
+      <label for="nome" class="form-label">Nome:</label>
+      <input type="text" class="form-control" id="nome" name="nome" [(ngModel)]="formData.nome" placeholder="Seu nome completo" required>
+    </div>
+    <div class="mb-3">
+      <label for="cpf" class="form-label">CPF:</label>
+      <input type="text" class="form-control" id="cpf" name="cpf" [(ngModel)]="formData.cpf" placeholder="000.000.000-00" required>
+    </div>
+    
+    <div class="mb-3">
+      <label for="cep" class="form-label">CEP:</label>
+      <input type="text" class="form-control" id="cep" name="cep" [(ngModel)]="formData.cep" (blur)="buscarCep()" placeholder="00000-000">
+    </div>
+
+    <div class="row">
+      <div class="col-md-9 mb-3">
+          <label for="logradouro" class="form-label">Logradouro (Rua, Av.):</label>
+          <input type="text" class="form-control" id="logradouro" name="logradouro" [(ngModel)]="formData.logradouro" placeholder="Ex: Avenida Brasil">
+      </div>
+      <div class="col-md-3 mb-3">
+          <label for="numero" class="form-label">Número:</label>
+          <input type="text" class="form-control" id="numero" name="numero" [(ngModel)]="formData.numero" placeholder="Ex: 123">
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="complemento" class="form-label">Complemento:</label>
+      <input type="text" class="form-control" id="complemento" name="complemento" [(ngModel)]="formData.complemento" placeholder="Ex: Apto 101, Bloco B">
+    </div>
+    <div class="mb-3">
+      <label for="bairro" class="form-label">Bairro:</label>
+      <input type="text" class="form-control" id="bairro" name="bairro" [(ngModel)]="formData.bairro" placeholder="Ex: Centro">
+    </div>
+
+    <div class="row">
+      <div class="col-md-9 mb-3">
+          <label for="localidade" class="form-label">Cidade:</label>
+          <input type="text" class="form-control" id="localidade" name="localidade" [(ngModel)]="formData.localidade" placeholder="Ex: Foz do Iguaçu">
+      </div>
+      <div class="col-md-3 mb-3">
+          <label for="uf" class="form-label">UF:</label>
+          <input type="text" class="form-control" id="uf" name="uf" [(ngModel)]="formData.uf" placeholder="Ex: PR">
+      </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="contato" class="form-label">Número para Contato:</label>
+        <input type="tel" class="form-control" id="contato" name="contato" [(ngModel)]="formData.contato" mask="(00) 00000-0000" placeholder="(99) 99999-9999" required>
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email:</label>
+      <input type="email" class="form-control" id="email" name="email" [(ngModel)]="formData.email" placeholder="seuemail@exemplo.com" required>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.dismiss('cancel click')">Cancelar</button>
+  <button type="button" class="btn btn-success" (click)="submitForm()" [disabled]="!contactForm.valid">Enviar Proposta</button>
+</div>

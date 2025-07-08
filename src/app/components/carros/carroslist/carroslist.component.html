@@ -26,7 +26,7 @@
                 {{ carro.ano }} · {{ carro.kms | number }} km
               </p>
               <h6 class="mt-auto">R$ {{ carro.preco | number:'1.0-0' }}</h6>
-              <a [routerLink]="['/carro', carro.id]" class="btn btn-dark mt-2">
+              <a [routerLink]="['/principal/carros', carro.id]" class="btn btn-dark mt-2">
                 Ver oferta
               </a>
             </div>
