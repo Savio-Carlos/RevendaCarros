@@ -1,0 +1,128 @@
+<div class="card shadow-sm mb-3">
+  <div class="card-body">
+    <h5 class="card-title">Filtros</h5>
+
+    <!-- Modelo -->
+    <div class="mb-3">
+      <label for="filtroModelo" class="form-label">Modelo</label>
+      <input
+        id="filtroModelo"
+        type="text"
+        class="form-control"
+        [(ngModel)]="f.modelo"
+        (ngModelChange)="emitir()"
+        placeholder="Ex: HB20, Onix..."
+      />
+    </div>
+
+    <!-- Marca -->
+    <div class="mb-3">
+      <label for="filtroMarca" class="form-label">Marca</label>
+      <input
+        id="filtroMarca"
+        type="text"
+        class="form-control"
+        [(ngModel)]="f.marca"
+        (ngModelChange)="emitir()"
+        placeholder="Ex: Hyundai, Chevrolet..."
+      />
+    </div>
+
+    <!-- Ano Mínimo e Máximo -->
+    <div class="row g-2 mb-3">
+      <div class="col">
+        <label for="filtroAnoMin" class="form-label">Ano (mín.)</label>
+        <input
+          id="filtroAnoMin"
+          type="number"
+          class="form-control"
+          [(ngModel)]="f.anoMin"
+          (ngModelChange)="emitir()"
+        />
+      </div>
+      <div class="col">
+        <label for="filtroAnoMax" class="form-label">Ano (máx.)</label>
+        <input
+          id="filtroAnoMax"
+          type="number"
+          class="form-control"
+          [(ngModel)]="f.anoMax"
+          (ngModelChange)="emitir()"
+        />
+      </div>
+    </div>
+
+    <!-- Preço Mínimo e Máximo -->
+    <div class="row g-2 mb-3">
+      <div class="col">
+        <label for="filtroPrecoMin" class="form-label">Preço (mín.)</label>
+        <input
+          id="filtroPrecoMin"
+          type="number"
+          class="form-control"
+          [(ngModel)]="f.precoMin"
+          (ngModelChange)="emitir()"
+        />
+      </div>
+      <div class="col">
+        <label for="filtroPrecoMax" class="form-label">Preço (máx.)</label>
+        <input
+          id="filtroPrecoMax"
+          type="number"
+          class="form-control"
+          [(ngModel)]="f.precoMax"
+          (ngModelChange)="emitir()"
+        />
+      </div>
+    </div>
+
+    <!-- Combustível -->
+    <div class="mb-3">
+      <label for="filtroCombustivel" class="form-label">Combustível</label>
+      <select
+        id="filtroCombustivel"
+        class="form-select"
+        [(ngModel)]="f.combustivel"
+        (ngModelChange)="emitir()"
+      >
+        <option value="">Todos</option>
+        <option value="Flex">Flex</option>
+        <option value="Gasolina">Gasolina</option>
+        <option value="Diesel">Diesel</option>
+        <!-- adicione outros tipos -->
+      </select>
+    </div>
+
+    <!-- Câmbio -->
+    <div class="mb-3">
+      <label for="filtroCambio" class="form-label">Câmbio</label>
+      <select
+        id="filtroCambio"
+        class="form-select"
+        [(ngModel)]="f.cambio"
+        (ngModelChange)="emitir()"
+      >
+        <option value="">Todos</option>
+        <option value="Manual">Manual</option>
+        <option value="Automático">Automático</option>
+      </select>
+    </div>
+
+    <!-- Kms Máximos -->
+    <div class="mb-3">
+      <label for="filtroKmsMax" class="form-label">Kms (máx.)</label>
+      <input
+        id="filtroKmsMax"
+        type="number"
+        class="form-control"
+        [(ngModel)]="f.kmsMax"
+        (ngModelChange)="emitir()"
+        placeholder="Ex: 50000"
+      />
+    </div>
+
+    <button class="btn btn-primary w-100" (click)="emitir()">
+      Aplicar filtros
+    </button>
+  </div>
+</div>
