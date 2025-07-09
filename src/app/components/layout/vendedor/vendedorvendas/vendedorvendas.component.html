@@ -1,0 +1,68 @@
+<div class="container-fluid">
+  <h1 class="h2 mb-4">Histórico de Vendas</h1>
+
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Filtrar por Período</h5>
+      <div class="row g-3 align-items-end">
+        <div class="col-md-4">
+          <label for="dataInicio" class="form-label">Data de Início:</label>
+          <input type="date" id="dataInicio" class="form-control" [(ngModel)]="dataInicio">
+        </div>
+        <div class="col-md-4">
+          <label for="dataFim" class="form-label">Data de Fim:</label>
+          <input type="date" id="dataFim" class="form-control" [(ngModel)]="dataFim">
+        </div>
+        <div class="col-md-4 d-flex gap-2">
+          <button class="btn btn-primary w-100" (click)="filtrarVendas()">
+            <i class="fas fa-filter me-2"></i>Filtrar
+          </button>
+          <button class="btn btn-secondary w-100" (click)="limparFiltro()">
+            <i class="fas fa-times me-2"></i>Limpar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-header py-3">
+      <h6 class="m-0 fw-bold text-primary">Vendas Encontradas: {{ vendasFiltradas.length }}</h6>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Data da Venda</th>
+              <th>Tipo</th>
+              <th>Item Vendido</th>
+              <th>Valor Final</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let venda of vendasFiltradas">
+              <td>{{ venda.dataVenda | date:'dd/MM/yyyy' }}</td>
+              <td>
+                <span class="badge" [ngClass]="{'bg-success': venda.tipo === 'Carro', 'bg-info': venda.tipo === 'Peça'}">
+                  {{ venda.tipo }}
+                </span>
+              </td>
+                <td>{{ getItemName(venda) }}</td>
+              <td>{{ venda.valorFinal | currency:'BRL' }}</td>
+            </tr>
+            <tr *ngIf="vendasFiltradas.length === 0">
+              <td colspan="4" class="text-center">Nenhuma venda encontrada para o período selecionado.</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="table-dark">
+              <td colspan="3" class="text-end fw-bold">Total do Período:</td>
+              <td class="fw-bold">{{ calcularTotal() | currency:'BRL' }}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

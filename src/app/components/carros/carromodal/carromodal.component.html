@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ isEditMode ? 'Editar Carro' : 'Adicionar Novo Carro' }}</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+<div class="modal-body">
+  <form #carroForm="ngForm">
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="modelo" class="form-label">Modelo</label>
+        <input type="text" class="form-control" name="modelo" [(ngModel)]="carro.modelo" required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="marca" class="form-label">Marca</label>
+        <input type="text" class="form-control" name="marca" [(ngModel)]="carro.marca" required>
+      </div>
+    </div>
+    <div class="mb-3">
+        <label for="preco" class="form-label">Preço</label>
+        <input type="number" class="form-control" name="preco" [(ngModel)]="carro.preco" required>
+    </div>
+    <div class="mb-3">
+        <label for="fotoUrl" class="form-label">URL da Foto</label>
+        <input type="text" class="form-control" name="fotoUrl" [(ngModel)]="carro.fotoUrl" placeholder="assets/images/your-image.webp">
+    </div>
+    </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.dismiss()">Cancelar</button>
+  <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!carroForm.valid">Salvar</button>
+</div>
