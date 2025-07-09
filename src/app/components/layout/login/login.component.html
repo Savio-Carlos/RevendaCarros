@@ -1,36 +1,32 @@
 <app-menu></app-menu>
-<router-outlet></router-outlet>
-<div class="container">
-  <div class="row">
-    <div class="col-4">
 
-    </div>
-
-    <div class="col-4">
-
-      <div class="card centralizar topo">
-        <div class="card-body centralizar">
-          <h3>Autentique-se:</h3><br>
-
-          <mdb-form-control>
-            <input [(ngModel)]="usuario" mdbInput type="text" id="login" class="form-control" />
-            <label mdbLabel class="form-label" for="login">Usuário:</label>
-          </mdb-form-control>
-          <br>
-          <mdb-form-control>
-            <input (keyup.enter)="logar()" [(ngModel)]="senha" mdbInput type="password" id="senha" class="form-control" />
-            <label mdbLabel class="form-label" for="senha">Senha:</label>
-          </mdb-form-control>
-          <br>
-
-          <button (click)="logar()" type="button" class="btn btn-primary" mdbRipple>Entrar</button><br><br>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-5 col-md-8">
+      <div class="card shadow-lg border-0 rounded-lg">
+        <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
+        <div class="card-body">
+          <form>
+            <div class="form-floating mb-3">
+              <input class="form-control" id="inputUser" type="text" placeholder="usuário" [(ngModel)]="usuario" name="usuario" />
+              <label for="inputUser">Usuário</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input class="form-control" id="inputPassword" type="password" placeholder="Senha" [(ngModel)]="senha" name="senha" (keyup.enter)="logar()" />
+              <label for="inputPassword">Senha</label>
+            </div>
+            <div class="d-grid mt-4 mb-0">
+              <button class="btn body-button btn-block text-white" type="button" (click)="logar()">Entrar</button>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer text-center py-3">
+          <div class="small">
+            Não tem uma conta? 
+            <a href="javascript:void(0) " (click)="openRegisterModal()">Cadastre-se!</a>
+          </div>
         </div>
       </div>
-
-    </div>
-   
-    <div class="col-4">
-
     </div>
   </div>
 </div>

@@ -1,0 +1,49 @@
+<div class="container-fluid">
+  <h1 class="h2 mb-4">Meus Carros e Garantia</h1>
+
+  <div *ngIf="meusVeiculos.length > 0; else noCars">
+    <div class="card shadow-sm mb-4" *ngFor="let veiculo of meusVeiculos">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img [src]="veiculo.fotoUrl" class="img-fluid rounded-start" [alt]="veiculo.modelo">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h3 class="card-title">{{ veiculo.modelo }} <span class="badge bg-primary">{{ veiculo.marca }}</span></h3>
+            <p class="card-text text-muted">
+              Comprado em: {{ veiculo.dataCompra | date:'dd/MM/yyyy' }} <br>
+              Quilometragem Atual: {{ veiculo.quilometragemAtual | number }} km
+            </p>
+            <hr>
+            <h5 class="card-title">Status da Garantia</h5>
+            <div class="d-flex align-items-center mb-3">
+              <span class="badge fs-6" [ngClass]="'bg-' + getStatusGarantia(veiculo).classe">
+                {{ getStatusGarantia(veiculo).status }}
+              </span>
+            </div>
+
+            <p class="card-text text-muted mb-3">
+            <small>Expira em: {{ getDataExpiracaoGarantia(veiculo) | date:'dd/MM/yyyy' }}</small>
+            </p>
+
+            <h5 class="card-title">Controle de Revisões</h5>
+            <p>Próxima revisão obrigatória em: <strong>{{ getProximaRevisaoKm(veiculo) | number }} km</strong></p>
+            <div class="progress" style="height: 25px;">
+              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" 
+                   [style.width.%]="getProgressoRevisao(veiculo)" 
+                   [attr.aria-valuenow]="getProgressoRevisao(veiculo)">
+                   {{ veiculo.quilometragemAtual | number }} km
+              </div>
+            </div>
+            <small class="text-muted">Você deve realizar a revisão até {{ getProximaRevisaoKm(veiculo) + 1000 | number }} km para manter a garantia.</small>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noCars>
+    <div class="alert alert-info">Você ainda não possui veículos cadastrados.</div>
+  </ng-template>
+</div>

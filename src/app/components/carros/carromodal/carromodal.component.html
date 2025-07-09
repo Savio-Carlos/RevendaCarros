@@ -2,6 +2,7 @@
   <h4 class="modal-title">{{ isEditMode ? 'Editar Carro' : 'Adicionar Novo Carro' }}</h4>
   <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
 </div>
+
 <div class="modal-body">
   <form #carroForm="ngForm">
     <div class="row">
@@ -14,17 +15,51 @@
         <input type="text" class="form-control" name="marca" [(ngModel)]="carro.marca" required>
       </div>
     </div>
-    <div class="mb-3">
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="ano" class="form-label">Ano</label>
+        <input type="number" class="form-control" name="ano" [(ngModel)]="carro.ano" required>
+      </div>
+      <div class="col-md-6 mb-3">
         <label for="preco" class="form-label">Preço</label>
         <input type="number" class="form-control" name="preco" [(ngModel)]="carro.preco" required>
+      </div>
     </div>
-    <div class="mb-3">
-        <label for="fotoUrl" class="form-label">URL da Foto</label>
-        <input type="text" class="form-control" name="fotoUrl" [(ngModel)]="carro.fotoUrl" placeholder="assets/images/your-image.webp">
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="combustivel" class="form-label">Combustível</label>
+        <select class="form-select" name="combustivel" [(ngModel)]="carro.combustivel" required>
+          <option value="Flex">Flex</option>
+          <option value="Gasolina">Gasolina</option>
+          <option value="Diesel">Diesel</option>
+          <option value="Elétrico">Elétrico</option>
+        </select>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="cambio" class="form-label">Câmbio</label>
+        <select class="form-select" name="cambio" [(ngModel)]="carro.cambio" required>
+          <option value="Manual">Manual</option>
+          <option value="Automático">Automático</option>
+        </select>
+      </div>
     </div>
-    </form>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label for="kms" class="form-label">Quilometragem (kms)</label>
+            <input type="number" class="form-control" name="kms" [(ngModel)]="carro.kms" required>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label for="fotoUrl" class="form-label">URL da Foto</label>
+            <input type="text" class="form-control" name="fotoUrl" [(ngModel)]="carro.fotoUrl" placeholder="assets/images/your-image.webp">
+        </div>
+    </div>
+  </form>
 </div>
+
 <div class="modal-footer">
   <button type="button" class="btn btn-outline-dark" (click)="activeModal.dismiss()">Cancelar</button>
-  <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!carroForm.valid">Salvar</button>
+  <button type="button" class="btn body-button text-white btn-secondary" (click)="save()" [disabled]="!carroForm.valid">Salvar</button>
 </div>

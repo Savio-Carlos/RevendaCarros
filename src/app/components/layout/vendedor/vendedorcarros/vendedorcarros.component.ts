@@ -36,9 +36,9 @@ export class VendedorcarrosComponent implements OnInit {
     modalRef.result.then(result => {
       if (!result) return;
 
-      if (carro && carro.id) { // Editing an existing car
+      if (carro && carro.id) {
         this.carroService.update(result).subscribe(() => this.loadCarros());
-      } else { // Adding a new car
+      } else {
         this.carroService.add(result).subscribe(() => this.loadCarros());
       }
     }).catch(() => {});

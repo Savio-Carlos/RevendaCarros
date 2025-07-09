@@ -1,0 +1,69 @@
+<div class="container my-5">
+  <h1 class="mb-4">Seu Carrinho de Compras</h1>
+
+  <div *ngIf="(cartItems$ | async) as items; else emptyCart">
+    <div *ngIf="items.length > 0; else emptyCart">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="card shadow-sm" *ngFor="let item of items">
+            <div class="card-body">
+              <div class="row align-items-center">
+                <div class="col-md-2">
+                  <img [src]="item.peca.fotoUrl" class="img-fluid" [alt]="item.peca.nome">
+                </div>
+                <div class="col-md-5">
+                  <h5>{{ item.peca.nome }}</h5>
+                  <p class="text-muted small">{{ item.peca.marca }}</p>
+                </div>
+                <div class="col-md-2">
+                  <p>Qtd: {{ item.quantidade }}</p>
+                </div>
+                <div class="col-md-2 text-end">
+                  <strong>{{ item.peca.preco * item.quantidade | currency:'BRL' }}</strong>
+                </div>
+                <div class="col-md-1 text-end">
+                  <button class="btn btn-sm btn-outline-danger" (click)="removerDoCarrinho(item.peca.id)">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Resumo do Pedido</h5>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between">
+                  <span>Subtotal</span>
+                  <strong>{{ totalPrice | currency:'BRL' }}</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                  <span>Frete</span>
+                  <strong>Grátis</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between bg-light">
+                  <span class="fw-bold">Total</span>
+                  <strong class="fs-5">{{ totalPrice | currency:'BRL' }}</strong>
+                </li>
+              </ul>
+              <div class="d-grid mt-3">
+                <button routerLink="/login" class="btn body text-white btn-lg">Proceder para o Checkout</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #emptyCart>
+    <div class="text-center p-5 border rounded">
+      <h2>Seu carrinho está vazio.</h2>
+      <p>Adicione peças ao seu carrinho para vê-las aqui.</p>
+      <a routerLink="/principal/pecas" class="btn body text-white ">Ver Peças Disponíveis</a>
+    </div>
+  </ng-template>
+</div>

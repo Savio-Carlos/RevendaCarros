@@ -1,1 +1,54 @@
-<p>cliente works!</p>
+<div class="d-flex" style="height: 100vh;">
+  <!-- Sidebar -->
+  <div class="d-flex flex-column flex-shrink-0 p-3 text-white body" style="width: 280px;">
+    <a href="/cliente" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+      <i class="fas fa-user fa-2x me-2"></i>
+      <span class="fs-4">Área do Cliente</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <a routerLink="carros" routerLinkActive="active" class="nav-link text-custom ">
+          <i class="fas fa-car me-2"></i>
+          Meus Carros e Garantia
+        </a>
+      </li>
+      <li>
+        <a routerLink="servicos" routerLinkActive="active" class="nav-link text-custom">
+          <i class="fas fa-wrench me-2"></i>
+          Histórico de Serviços
+        </a>
+      </li>
+      <li>
+        <a routerLink="acessorios" routerLinkActive="active" class="nav-link text-custom">
+          <i class="fas fa-star me-2"></i>
+          Peças e Acessórios
+        </a>
+      </li>
+    </ul>
+    <hr>
+    <li class="nav-item mt-auto">
+        <a routerLink="/principal" class="nav-link text-white">
+        <i class="fas fa-arrow-left me-2"></i>
+        Voltar à Página Principal
+        </a>
+    </li>
+    <hr>
+    <div class="dropdown">
+      <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <img src="https://github.com/mdo2.png" alt="" width="32" height="32" class="rounded-circle me-2">
+        <strong>Cliente</strong>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+        <li><a class="dropdown-item" routerLink="/login">Sair</a></li>
+      </ul>
+    </div>
+    
+  </div>
+  
+
+  <!-- Main Content -->
+  <div class="flex-grow-1 p-4" style="overflow-y: auto;">
+    <router-outlet></router-outlet>
+  </div>
+</div>

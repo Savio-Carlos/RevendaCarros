@@ -1,0 +1,58 @@
+<div class="hero-section text-center text-white">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1 class="display-3 fw-bold">O carro dos seus sonhos está aqui</h1>
+    <p class="lead">Qualidade, confiança e as melhores ofertas do mercado.</p>
+    <a routerLink="carros" class="btn body-button btn-lg mt-3 text-white">Ver Estoque de Carros</a>
+  </div>
+</div>
+
+<div class="container my-5">
+  <section class="text-center mb-5">
+    <h2 class="display-5 fw-bold">Destaques da Semana</h2>
+    <p class="lead text-muted">Confira os veículos mais procurados da nossa loja.</p>
+    <div class="row g-4 mt-4">
+      <div class="col-lg-4 col-md-6" *ngFor="let carro of carrosDestaque">
+        <div class="card h-100 shadow-lg border-0 card-hover">
+          <img [src]="carro.fotoUrl" class="card-img-top" [alt]="carro.modelo">
+          <div class="card-body d-flex flex-column">
+            <span class="badge bg-danger align-self-start mb-2">{{ carro.marca }}</span>
+            <h5 class="card-title">{{ carro.modelo }}</h5>
+            <p class="card-text small text-muted mb-1">{{ carro.ano }} · {{ carro.kms | number }} km</p>
+            <h6 class="mt-auto fw-bold fs-5">R$ {{ carro.preco | number:'1.0-0' }}</h6>
+            <a [routerLink]="['/principal/carros', carro.id]" class="btn btn-dark mt-2">Ver Oferta</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="my-5">
+  <section class="text-center">
+    <h2 class="display-5 fw-bold">Nossos Serviços</h2>
+    <p class="lead text-muted">Cuidamos do seu veículo com a máxima atenção e profissionalismo.</p>
+    <div class="row text-center mt-4 g-4">
+      <div class="col-md-4">
+        <div class="p-4">
+          <i class="fas fa-car-crash fa-3x text-primary mb-3"></i>
+          <h4>Venda de Veículos</h4>
+          <p>Um estoque variado de seminovos inspecionados e com garantia.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-4">
+          <i class="fas fa-tools fa-3x text-primary mb-3"></i>
+          <h4>Manutenção e Revisão</h4>
+          <p>Serviços completos para manter seu carro sempre em perfeito estado.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="p-4">
+          <i class="fas fa-cogs fa-3x text-primary mb-3"></i>
+          <h4>Peças e Acessórios</h4>
+          <p>Peças originais e acessórios para personalizar o seu veículo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

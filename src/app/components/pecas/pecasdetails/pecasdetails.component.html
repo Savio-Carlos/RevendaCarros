@@ -1,1 +1,29 @@
-<p>pecasdetails works!</p>
+<div class="container py-5">
+  <div *ngIf="peca; else notFound">
+    <div class="row">
+      <div class="col-lg-5">
+        <img [src]="peca.fotoUrl" class="img-fluid rounded shadow-sm w-100" [alt]="peca.nome">
+      </div>
+        <div class="col-lg-7">
+          <span class="badge bg-info mb-2">{{ peca.marca }}</span>
+          <h1 class="display-5 fw-bold">{{ peca.nome }}</h1>
+          <p class="display-4 fw-bold text-success">{{ peca.preco | currency:'BRL' }}</p>
+
+          <div class="d-flex gap-2 mt-4">
+            <button class="btn body-button text-white btn-lg" (click)="adicionarAoCarrinho(peca!)" [disabled]="!peca">
+                <i class="fas fa-cart-plus me-2"></i> Adicionar ao Carrinho
+            </button>
+            <a routerLink="/principal/pecas" class="btn btn-outline-dark btn-lg">
+              Voltar para a lista
+            </a>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<ng-template #notFound>
+  <div class="text-center py-5">
+    <h2 class="display-4">Peça não encontrada</h2>
+    <a routerLink="/principal/pecas" class="btn btn-primary">Voltar para a lista</a>
+  </div>
+</ng-template>

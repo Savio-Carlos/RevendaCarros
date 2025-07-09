@@ -1,0 +1,26 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ isEditMode ? 'Editar Peça' : 'Adicionar Nova Peça' }}</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+<div class="modal-body">
+  <form #pecaForm="ngForm">
+    <div class="mb-3">
+      <label for="nome" class="form-label">Nome da Peça</label>
+      <input type="text" class="form-control" name="nome" [(ngModel)]="peca.nome" required>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="estoque" class="form-label">Estoque</label>
+        <input type="number" class="form-control" name="estoque" [(ngModel)]="peca.estoque" required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="preco" class="form-label">Preço</label>
+        <input type="number" class="form-control" name="preco" [(ngModel)]="peca.preco" required>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.dismiss()">Cancelar</button>
+  <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!pecaForm.valid">Salvar</button>
+</div>

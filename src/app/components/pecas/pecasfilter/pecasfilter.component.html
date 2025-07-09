@@ -1,0 +1,17 @@
+<div class="card shadow-sm mb-3">
+  <div class="card-body">
+    <h5 class="card-title">Filtros de Peças</h5>
+    <div class="mb-3">
+      <label for="filtroNome" class="form-label">Nome da Peça</label>
+      <input id="filtroNome" type="text" class="form-control" [(ngModel)]="f.nome" (ngModelChange)="emitir()" placeholder="Ex: Filtro, Vela...">
+    </div>
+    <div class="mb-3">
+      <label for="filtroMarca" class="form-label">Marca</label>
+      <input id="filtroMarca" type="text" class="form-control" [(ngModel)]="f.marca" (ngModelChange)="emitir()" placeholder="Ex: Bosch, NGK...">
+    </div>
+    <div class="mb-3">
+      <label for="filtroPrecoMax" class="form-label">Preço (máx.)</label>
+      <input id="filtroPrecoMax" type="number" class="form-control" [(ngModel)]="f.precoMax" (ngModelChange)="emitir()">
+    </div>
+  </div>
+</div>

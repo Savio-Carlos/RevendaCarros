@@ -1,3 +1,19 @@
 .custom-navbar {
   background-color: #ff0000 !important;
 }
+@media (min-width: 992px) {
+  .navbar-collapse {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.navbar .d-flex.align-items-center {
+    min-width: 150px; 
+    justify-content: flex-end;
+}
+
+.navbar .navbar-brand {
+    min-width: 150px; 
+}

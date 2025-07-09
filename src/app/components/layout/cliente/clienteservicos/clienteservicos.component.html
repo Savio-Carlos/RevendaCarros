@@ -1,0 +1,70 @@
+<div class="container-fluid">
+  <h1 class="h2 mb-4">Histórico de Serviços Realizados</h1>
+
+  <div *ngIf="meusVeiculos.length > 0; else noServices">
+    <div *ngFor="let veiculo of meusVeiculos">
+      <h3 class="mb-3">Serviços para: {{ veiculo.modelo }}</h3>
+
+      <div class="accordion" id="accordionServicos-{{veiculo.id}}">
+        <div class="accordion-item mb-3" *ngFor="let revisao of veiculo.revisoes; let i = index">
+          <h2 class="accordion-header" [id]="'heading' + i + '-' + veiculo.id">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + i + '-' + veiculo.id" aria-expanded="true">
+              <strong>Revisão de {{ revisao.quilometragem | number }} km</strong> - {{ revisao.data | date:'dd/MM/yyyy' }}
+            </button>
+          </h2>
+          <div [id]="'collapse' + i + '-' + veiculo.id" class="accordion-collapse collapse show" [attr.aria-labelledby]="'heading' + i + '-' + veiculo.id">
+            <div class="accordion-body">
+              <p><strong>Mecânico Responsável:</strong> {{ revisao.mecanicoResponsavel }}</p>
+              <hr>
+              <div class="row">
+                <div class="col-md-6">
+                  <h5>Serviços Realizados</h5>
+                  <table class="table table-sm table-striped">
+                    <thead>
+                      <tr>
+                        <th>Serviço</th>
+                        <th class="text-end">Preço</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let servico of revisao.servicosRealizados">
+                        <td>{{ servico.nome }}</td>
+                        <td class="text-end">{{ servico.preco | currency:'BRL' }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-6">
+                  <h5>Peças Trocadas</h5>
+                  <table class="table table-sm table-striped">
+                    <thead>
+                      <tr>
+                        <th>Peça</th>
+                        <th class="text-end">Preço</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let peca of revisao.pecasTrocadas">
+                        <td>{{ peca.nome }}</td>
+                        <td class="text-end">{{ peca.preco | currency:'BRL' }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="text-end mt-3">
+                <h4 class="fw-bold">Custo Total da Revisão: {{ revisao.custoTotal | currency:'BRL' }}</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noServices>
+    <div class="alert alert-info">
+      Você ainda não realizou nenhum serviço em seus veículos.
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,40 @@
+<div class="container-fluid">
+  <h1 class="h2 mb-4">Minhas Compras de Peças e Acessórios</h1>
+
+  <div *ngIf="minhasCompras.length > 0; else noPurchases">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Data da Compra</th>
+                <th>Itens Comprados</th>
+                <th>Valor Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let compra of minhasCompras">
+                <td>{{ compra.dataCompra | date:'dd/MM/yyyy' }}</td>
+                <td>
+                  <ul class="list-unstyled mb-0">
+                    <li *ngFor="let item of compra.itens">
+                      {{ item.nome }} ({{ item.marca }})
+                    </li>
+                  </ul>
+                </td>
+                <td>{{ compra.valorTotal | currency:'BRL' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noPurchases>
+    <div class="alert alert-info">
+      Você ainda não comprou nenhuma peça ou acessório.
+    </div>
+  </ng-template>
+</div>

@@ -8,9 +8,23 @@
 }
 
 .body{
-    background-color: #b94242;
+    background-color: #ff0000;
 }
 
+.body-button{
+    background-color: #ff0000;
+}
+
+.body-button:hover {
+  background-color: #d15b5b; 
+}
+
+.body-button:active {
+  background-color: #8a2e2e;
+}
+
+.text-title { color: #ffffff !important; font-size:18px  !important; font-weight:bolder; }
 .text-custom { color: #000000 !important; font-size:14px  !important; }
 .bg-custom   { background-color: #ebebeb !important; }
+
 

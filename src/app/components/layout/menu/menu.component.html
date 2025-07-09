@@ -1,13 +1,11 @@
-<!-- MDB Bootstrap CSS -->
-<link
-  href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.3.0/mdb.min.css"
-  rel="stylesheet"
-/>
-
 <nav class="navbar navbar-expand-lg custom-navbar">
   <div class="container-fluid">
+    
+    <a class="navbar-brand text-white" routerLink="/principal">
+      <i class="fas fa-car-side me-2"></i>
+      RevendaCarros
+    </a>
 
-    <!-- Collapse button -->
     <button
       class="navbar-toggler"
       type="button"
@@ -20,29 +18,32 @@
       <i class="fas fa-bars text-white"></i>
     </button>
 
-    <!-- Centered nav links -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav mb-3 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link text-white" href="/principal/carros">Carros</a>
+          <a class="nav-link text-title" routerLink="/principal/carros">Carros</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="/principal/pecas">Pecas</a>
+          <a class="nav-link text-title" routerLink="/principal/pecas">Peças</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="/principal/servicos">Serviços</a>
+          <a class="nav-link text-title" routerLink="/principal/servicos">Serviços</a>
         </li>
       </ul>
     </div>
-    <!-- /Centered nav links -->
 
-    <!-- Right side: avatar as direct link to /login -->
     <div class="d-flex align-items-center">
-      <a href="/login" class="d-flex align-items-center text-decoration-none">
-        <i class="fas fa-circle-user " style="font-size: 32px; color: white; padding-right: 22px;"></i>
+      <a routerLink="/principal/carrinho" class="text-white me-4 position-relative">
+        <i class="fas fa-shopping-cart" style="font-size: 30px;"></i>
+        <span *ngIf="(cartItemCount$ | async) as count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+          {{ count > 0 ? count : '' }}
+        </span>
+      </a>
+      
+      <a routerLink="/login" class="align-items-center text-decoration-none">
+        <i class="fas fa-circle-user" style="font-size: 32px; color: white;"></i>
       </a>
     </div>
-    <!-- /Right side -->
 
   </div>
 </nav>

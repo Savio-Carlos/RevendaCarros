@@ -1,0 +1,36 @@
+.hero-section {
+  position: relative;
+  height: 70vh;
+  background-image: url('https://images.unsplash.com/photo-1553440569-bcc63803a83d?q=80&w=1920');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.button-color{
+    background-color: rgba(255, 0, 0, 0.6);
+}
+
+.card-hover {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  &:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 1rem 3rem rgba(172, 28, 28, 0.175)!important;
+  }
+}

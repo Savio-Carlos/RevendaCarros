@@ -14,7 +14,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
    providers: [provideNgxMask()]
 })
 export class ContatoModalComponent {
-  // This object will hold the data from our form
+
   formData = {
     nome: '',
     cpf: '',
