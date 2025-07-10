@@ -21,52 +21,61 @@ import { ClienteAcessoriosComponent } from './components/layout/cliente/clientea
 import { HomeComponent } from './components/home/home.component';
 import { CarrinhoComponent } from './components/layout/carrinho/carrinho.component';
 import { GerenteclientesComponent } from './components/layout/gerente/gerenteclientes/gerenteclientes.component';
-import { GerenteequipeComponent } from './components/layout/gerente/gerenteequipe/gerenteequipe.component';
-import { GerenterelatoriosComponent } from './components/layout/gerente/gerenterelatorios/gerenterelatorios.component';
+import { GerenteEquipeComponent } from './components/layout/gerente/gerenteequipe/gerenteequipe.component';
+import { GerentedashboardComponent } from './components/layout/gerente/gerentedashboard/gerentedashboard.component';
+import { VendasPendentesComponent } from './components/vendas/vendaspendentes/vendaspendentes.component';
+import { NovaVendaComponent } from './components/vendas/nova-venda/nova-venda.component';
+import { NovaVendaCarroComponent } from './components/vendas/nova-venda-carro/nova-venda-carro.component';
+import { MecanicoHistoricoComponent } from './components/layout/mecanico/mecanico-historico/mecanico-historico.component';
+import { MecanicoNovaOrdemComponent } from './components/layout/mecanico/mecanico-nova-ordem/mecanico-nova-ordem.component';
+import { MecanicoServicosAbertosComponent } from './components/layout/mecanico/mecanico-servicos-abertos/mecanico-servicos-abertos.component';
 
 export const routes: Routes = [
     {path: "", redirectTo: "principal", pathMatch: 'full'},
     {path: "login", component: LoginComponent},
     {path: "principal", component: PrincipalComponent, children: [
-        { path: "", component: HomeComponent },
+        {path: "", component: HomeComponent },
         {path: "carros", component: CarroslistComponent},
         {path: "carros/:id", component: CarrosdetailsComponent},
         {path: "pecas", component: PecaslistComponent},
         {path: "pecas/:id", component: PecasdetailsComponent},
         {path: "servicos", component: ServicoslistComponent},
-        { path: "carrinho", component: CarrinhoComponent }
+        {path: "servicos/:id", component: ServicosdetailsComponent},
+        {path: "carrinho", component: CarrinhoComponent}
     ]},
-    {path: "gerente", component: GerenteComponent, children: [
-            { path: "", redirectTo: "veiculos", pathMatch: 'full' },
+    {path: "gerente", component: GerenteComponent, children: [  
+            { path: "", redirectTo: "dashboard", pathMatch: 'full' },
+            { path: "estoque", component: VendedorpecasComponent },
             { path: "veiculos", component: VendedorcarrosComponent }, 
             { path: "clientes", component: GerenteclientesComponent },
-            { path: "equipe", component: GerenteequipeComponent },
-            { path: "relatorios", component: GerenterelatoriosComponent },
-        ]
-    },
+            { path: "equipe", component: GerenteEquipeComponent },
+            { path: "dashboard", component: GerentedashboardComponent },
+            { path: "vendas", component: VendedorvendasComponent },
+            { path: "vendas-pendentes", component: VendasPendentesComponent },
+            { path: "nova-venda", component: NovaVendaComponent },
+            { path: "nova-venda-carro", component: NovaVendaCarroComponent }
+    ]},
     {path: "vendedor", component: VendedorComponent, children: [
         { path: "", redirectTo: "dashboard", pathMatch: 'full' },
         { path: "dashboard", component: VendedordashboardComponent },
         { path: "carros", component: VendedorcarrosComponent },
         { path: "pecas", component: VendedorpecasComponent },
-        { path: "vendas", component: VendedorvendasComponent }
+        { path: "clientes", component: GerenteclientesComponent },
+        { path: "vendas-pendentes", component: VendasPendentesComponent },
+        { path: "vendas", component: VendedorvendasComponent },
+        { path: "nova-venda", component: NovaVendaComponent },
+        { path: "nova-venda-carro", component: NovaVendaCarroComponent }
     ]},
     {path: "mecanico", component: MecanicoComponent, children: [
-        {path: "carros", component: CarroslistComponent},
-        {path: "carros/new", component: CarrosdetailsComponent},
-        {path: "carros/edit/:id", component: CarrosdetailsComponent},
-        {path: "pecas", component: PecaslistComponent},
-        {path: "pecas/new", component: PecaslistComponent},
-        {path: "pecas/edit/:id", component: PecasdetailsComponent},
-        {path: "servicos", component: ServicoslistComponent},
-        {path: "servicos/new", component: ServicoslistComponent},
-        {path: "servicos/edit/:id", component: ServicosdetailsComponent}
+        { path: "", redirectTo: "nova-ordem", pathMatch: 'full' },
+        { path: "nova-ordem", component: MecanicoNovaOrdemComponent },
+        { path: "servicos-abertos", component: MecanicoServicosAbertosComponent },
+        { path: "historico", component: MecanicoHistoricoComponent },
     ]},
     {path: "cliente", component: ClienteComponent, children: [
-            { path: "", redirectTo: "carros", pathMatch: 'full' },
-            { path: "carros", component: ClienteMeusCarrosComponent },
-            { path: "servicos", component: ClienteServicosComponent },
-            { path: "acessorios", component: ClienteAcessoriosComponent },
-        ]
-    },
+        { path: "", redirectTo: "carros", pathMatch: 'full' },
+        { path: "carros", component: ClienteMeusCarrosComponent },
+        { path: "servicos", component: ClienteServicosComponent },
+        { path: "acessorios", component: ClienteAcessoriosComponent },
+    ]},
 ];

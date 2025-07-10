@@ -1,27 +1,38 @@
 /* You can add global styles to this file, and also import other style files */
-@import '@fortawesome/fontawesome-free/css/all.css';
-@import 'mdb-angular-ui-kit/assets/scss/mdb.scss';
-@import 'bootstrap/scss/bootstrap';
+@use '@fortawesome/fontawesome-free/css/all.css';
+@use 'mdb-angular-ui-kit/assets/scss/mdb.scss';
+@use 'bootstrap/scss/bootstrap';
 
 .centralizar{
     text-align: center;
 }
 
 .body{
-    background-color: #4d0505 ;
+    background-color: #005975 ;
 }
 
 .body-button{
-    background-color: #860909 ;
+    background-color: #107cb2 ;
 }
-
 .body-button:hover {
-  background-color: #6d2626; 
+  background-color: #35a7ca; 
+}
+.body-button:active {
+  background-color: #16599d;
 }
 
-.body-button:active {
-  background-color: #8a2e2e;
+
+.body-button.nav-link{
+    background-color: #0d84c0 ;
 }
+.body-button.nav-link:active{
+    background-color: #b25e10 ;
+}
+.body-button.nav-link:hover{
+    background-color: #35a7ca ;
+}
+
+
 
 .text-title { color: #ffffff !important; font-size:18px  !important; font-weight:bolder; }
 .text-custom { color: #000000 !important; font-size:14px  !important; }

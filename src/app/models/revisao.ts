@@ -5,8 +5,11 @@ export class Revisao {
     id!: number;
     data!: Date;
     quilometragem!: number;
-    servicosRealizados!: Servico[]; // Alterado para uma lista de objetos Servico
-    pecasTrocadas!: Peca[];      // Alterado para uma lista de objetos Peca
+    servicosRealizados!: Servico[];
+    pecasTrocadas!: Peca[];
     mecanicoResponsavel!: string;
     custoTotal!: number;
+    status!: 'Em Aberto' | 'Concluído'; 
+    clienteNome!: string;
+    veiculoDescricao!: string;
 }

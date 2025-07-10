@@ -1,1 +1,57 @@
-<p>gerenteequipe works!</p>
+<div class="container-fluid">
+  <h1 class="h2 mb-4">Gestão da Equipe e Metas</h1>
+
+  <div class="row g-4">
+    <div class="col-lg-6" *ngFor="let vendedor of vendedores; let i = index">
+      <div class="card shadow-sm h-100">
+        <div class="card-header">
+          <h5 class="card-title mb-0">{{ vendedor.nome }}</h5>
+        </div>
+        <div class="card-body">
+          <h6 class="card-subtitle mb-2 text-muted">Progresso da Meta Mensal</h6>
+          <p class="fs-5 fw-bold">{{ calcularVendasMes(vendedor) | currency:'BRL' }} / {{ vendedor.metaMensal | currency:'BRL' }}</p>
+          <div class="progress" style="height: 20px;">
+            <div class="progress-bar" role="progressbar" 
+                 [style.width.%]="getProgressoMeta(vendedor)"
+                 [ngClass]="getProgressoMeta(vendedor) >= 100 ? 'bg-success' : 'bg-primary'">
+                 {{ getProgressoMeta(vendedor) | number:'1.0-0' }}%
+            </div>
+          </div>
+
+          <div class="accordion mt-4" [id]="'accordionVendas' + i">
+            <div class="accordion-item">
+              <h2 class="accordion-header" [id]="'headingVendas' + i">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapseVendas' + i">
+                  Ver Últimas Vendas
+                </button>
+              </h2>
+              <div [id]="'collapseVendas' + i" class="accordion-collapse collapse" [attr.data-bs-parent]="'#accordionVendas' + i">
+                <div class="accordion-body">
+                  <table class="table table-sm table-striped">
+                    <thead>
+                      <tr>
+                        <th>Data</th>
+                        <th>Item</th>
+                        <th>Valor</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let venda of vendedor.vendas | slice:0:5">
+                            <td>{{ venda.dataVenda | date:'dd/MM/yy' }}</td>
+                            <td>{{ getItemName(venda) }}</td>
+                            <td>{{ venda.valorFinal | currency:'BRL' }}</td>
+                        </tr>
+                        <tr *ngIf="vendedor.vendas.length === 0">
+                            <td colspan="3" class="text-center">Nenhuma venda registrada.</td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

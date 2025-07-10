@@ -1,0 +1,68 @@
+<div class="container-fluid">
+  <h1 class="h2 mb-4">Concluir Venda de Veículo</h1>
+
+  <div class="row g-4">
+    <div class="col-lg-6">
+      <div class="card shadow-sm mb-4">
+        <div class="card-header"><h5 class="mb-0">1. Selecione o Cliente</h5></div>
+        <div class="card-body">
+          <div class="input-group">
+            <select class="form-select" [(ngModel)]="clienteSelecionado">
+              <option [ngValue]="undefined" disabled>-- Escolha um cliente existente --</option>
+              <option *ngFor="let cliente of clientes" [ngValue]="cliente">{{ cliente.nome }}</option>
+            </select>
+            <button class="btn btn-outline-secondary" type="button" (click)="abrirModalCadastroCliente()">Cadastrar Novo</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card shadow-sm">
+        <div class="card-header"><h5 class="mb-0">2. Selecione o Veículo</h5></div>
+        <div class="card-body">
+          <label class="form-label">Veículos disponíveis no estoque:</label>
+          <select class="form-select" [(ngModel)]="carroSelecionado">
+            <option [ngValue]="undefined" disabled>-- Escolha um veículo --</option>
+            <option *ngFor="let carro of carrosDisponiveis" [ngValue]="carro">
+              {{ carro.modelo }} ({{ carro.marca }}) - {{ carro.preco | currency:'BRL' }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card shadow-sm sticky-top" style="top: 20px;">
+        <div class="card-header bg-dark text-white"><h5 class="mb-0">3. Resumo da Venda</h5></div>
+        <div class="card-body" style="min-height: 400px;">
+          <div class="mb-4">
+            <h6 class="border-bottom pb-2">Cliente</h6>
+            <div *ngIf="clienteSelecionado; else noClient" class="mt-2">
+              <p class="mb-1"><strong>Nome:</strong> {{ clienteSelecionado.nome }}</p>
+              <p class="mb-1"><strong>Email:</strong> {{ clienteSelecionado.email }}</p>
+              <p class="mb-0"><strong>CPF:</strong> {{ clienteSelecionado.cpf }}</p>
+            </div>
+            <ng-template #noClient><p class="text-muted">Aguardando seleção do cliente...</p></ng-template>
+          </div>
+
+          <div>
+            <h6 class="border-bottom pb-2">Veículo</h6>
+            <div *ngIf="carroSelecionado; else noCar" class="text-center mt-3">
+              <img [src]="carroSelecionado.fotoUrl" [alt]="carroSelecionado.modelo" class="img-fluid rounded mb-3" style="max-height: 150px;">
+              <h5>{{ carroSelecionado.modelo }}</h5>
+              <p class="text-muted">{{ carroSelecionado.marca }} - {{ carroSelecionado.ano }}</p>
+              <p class="fs-4 fw-bold">{{ carroSelecionado.preco | currency:'BRL' }}</p>
+            </div>
+            <ng-template #noCar><p class="text-muted">Aguardando seleção do veículo...</p></ng-template>
+          </div>
+        </div>
+        <div class="card-footer p-3">
+          <div class="d-grid">
+            <button class="btn btn-success btn-lg" (click)="finalizarVenda()" [disabled]="!clienteSelecionado || !carroSelecionado">
+              Concluir Venda
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

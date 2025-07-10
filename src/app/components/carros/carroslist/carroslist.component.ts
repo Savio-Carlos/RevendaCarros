@@ -4,12 +4,10 @@ import { CarroService } from '../../../services/carro.service';
 import { Carro } from '../../../models/carro';
 import { CommonModule } from '@angular/common';    
 import { FormsModule } from '@angular/forms';                 
-import { RouterModule, RouterLink } from '@angular/router';
-import { FooterComponent } from "../../layout/footer/footer.component";           
+import { RouterModule, RouterLink } from '@angular/router';         
 
 @Component({
-  // Add CarrosfilterComponent here
-  imports: [FormsModule, CommonModule, RouterModule, CarrosfilterComponent, RouterLink, FooterComponent],
+  imports: [FormsModule, CommonModule, RouterModule, CarrosfilterComponent, RouterLink],
   selector: 'app-carros-list',
   templateUrl: './carroslist.component.html',
 })

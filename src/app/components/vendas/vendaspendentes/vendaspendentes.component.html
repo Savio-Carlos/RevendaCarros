@@ -1,0 +1,34 @@
+<div class="container-fluid">
+  <h1 class="h2 mb-4">Acompanhamento de Vendas Pendentes</h1>
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Veículo</th>
+              <th>Data de Início</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let venda of vendasPendentes">
+              <td>{{ venda.cliente.nome }}</td>
+              <td>{{ venda.carro.modelo }} ({{ venda.carro.marca }})</td>
+              <td>{{ venda.dataInicio | date:'dd/MM/yyyy' }}</td>
+              <td>
+                <span class="badge" [ngClass]="getStatusClass(venda.status)">
+                  {{ venda.status }}
+                </span>
+              </td>
+            </tr>
+            <tr *ngIf="vendasPendentes.length === 0">
+              <td colspan="4" class="text-center">Nenhuma venda pendente no momento.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

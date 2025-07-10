@@ -6,10 +6,22 @@
     </a>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
+      <li>
+        <a routerLink="dashboard" routerLinkActive="active" class="nav-link text-black">
+          <i class="fas fa-chart-line me-2"></i>
+          Dashboard
+        </a>
+      </li>
       <li class="nav-item">
         <a routerLink="veiculos" routerLinkActive="active" class="nav-link text-black">
           <i class="fas fa-car me-2"></i>
           Gestão de Veículos
+        </a>  
+      </li>
+      <li class="nav-item">
+        <a routerLink="estoque" routerLinkActive="active" class="nav-link text-black">
+          <i class="fas fa-box-open me-2"></i>
+          Estoque de Peças
         </a>
       </li>
       <li>
@@ -25,13 +37,27 @@
         </a>
       </li>
       <li>
-        <a routerLink="relatorios" routerLinkActive="active" class="nav-link text-black">
-          <i class="fas fa-chart-line me-2"></i>
-          Relatórios
+        <a routerLink="vendas-pendentes" routerLinkActive="active" class="nav-link text-black">
+          <i class="fas fa-hourglass-half me-2"></i>
+          Vendas Pendentes
         </a>
       </li>
+
+      <li>
+        <a routerLink="nova-venda" routerLinkActive="active" class="nav-link button-color text-black">
+          <i class="fas fa-plus-circle me-2"></i>
+          Nova Venda de Peças
+        </a>
+      </li>
+
+      <li>
+        <a routerLink="nova-venda-carro" routerLinkActive="active" class="nav-link button-color text-black">
+          <i class="fas fa-car me-2"></i>
+          Nova Venda de Carro
+        </a>
+      </li>
+      <hr>
     </ul>
-    <hr>
       <li class="nav-item mt-auto">
         <a routerLink="/principal" class="nav-link text-white">
         <i class="fas fa-arrow-left me-2"></i>

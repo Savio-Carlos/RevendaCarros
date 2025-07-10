@@ -1,0 +1,36 @@
+<div class="container-fluid">
+  <h1 class="h2 mb-4">Serviços em Aberto</h1>
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Veículo</th>
+              <th>Data de Abertura</th>
+              <th>Custo Estimado</th>
+              <th class="text-end">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ordem of ordensAbertas">
+              <td>{{ ordem.clienteNome }}</td>
+              <td>{{ ordem.veiculoDescricao }}</td>
+              <td>{{ ordem.data | date:'dd/MM/yyyy' }}</td>
+              <td>{{ ordem.custoTotal | currency:'BRL' }}</td>
+              <td class="text-end">
+                <button class="btn btn-sm btn-success" (click)="finalizarServico(ordem)">
+                  <i class="fas fa-check-circle me-1"></i> Finalizar Serviço
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="ordensAbertas.length === 0">
+              <td colspan="5" class="text-center">Nenhum serviço em aberto no momento.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

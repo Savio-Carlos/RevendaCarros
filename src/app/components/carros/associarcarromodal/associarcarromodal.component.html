@@ -1,0 +1,24 @@
+<div class="modal-header">
+  <h4 class="modal-title">Selecionar Carro para Associar</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+<div class="modal-body">
+  <p>Escolha um dos veículos disponíveis no estoque para registrar para este cliente.</p>
+  <div class="list-group">
+    <button 
+      type="button" 
+      class="list-group-item list-group-item-action"
+      *ngFor="let carro of carrosDisponiveis"
+      (click)="selecionarCarro(carro)">
+      <strong>{{ carro.modelo }}</strong> ({{ carro.marca }}) - {{ carro.ano }}
+      <br>
+      <small class="text-muted">Preço: {{ carro.preco | currency:'BRL' }}</small>
+    </button>
+  </div>
+  <div *ngIf="carrosDisponiveis.length === 0" class="alert alert-warning mt-3">
+    Nenhum carro novo disponível no estoque.
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.dismiss()">Cancelar</button>
+</div>

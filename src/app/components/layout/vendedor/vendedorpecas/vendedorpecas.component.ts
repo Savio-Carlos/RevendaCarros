@@ -4,15 +4,21 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Peca } from '../../../../models/peca';
 import { PecaService } from '../../../../services/peca.service';
 import { PecamodalComponent } from '../../../pecas/pecamodal/pecamodal.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-vendedor-pecas',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,FormsModule],
   templateUrl: './vendedorpecas.component.html',
 })
 export class VendedorpecasComponent implements OnInit {
-  pecas: Peca[] = [];
+  todasAsPecas: Peca[] = [];
+  lowStockThreshold = 10; 
+
+  pecasFiltradas: Peca[] = [];
+  
+  termoBusca: string = '';
 
   constructor(
     private pecaService: PecaService,
@@ -25,8 +31,19 @@ export class VendedorpecasComponent implements OnInit {
 
   loadPecas(): void {
     this.pecaService.getAll().subscribe(data => {
-      this.pecas = data;
+      this.todasAsPecas = data;
+      this.filtrarPecas();
     });
+  }
+
+    filtrarPecas(): void {
+    if (!this.termoBusca) {
+      this.pecasFiltradas = this.todasAsPecas;
+    } else {
+      this.pecasFiltradas = this.todasAsPecas.filter(peca => 
+        peca.nome.toLowerCase().includes(this.termoBusca.toLowerCase())
+      );
+    }
   }
 
   openModal(peca?: Peca): void {

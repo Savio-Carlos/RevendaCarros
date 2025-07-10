@@ -1,13 +1,24 @@
 <div class="container-fluid">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h2">Gerenciar Peças</h1>
-    <button class="btn btn-primary" (click)="openModal()">
+    <h1 class="h2">Gerenciar Estoque de Peças</h1>
+    <button class="btn body-button text-white " (click)="openModal()">
       <i class="fas fa-plus me-2"></i>Adicionar Nova Peça
     </button>
   </div>
 
   <div class="card shadow-sm">
     <div class="card-body">
+      <div class="mb-3">
+        <label for="searchPeca" class="form-label">Buscar Peça por Nome</label>
+        <input 
+          type="text" 
+          class="form-control" 
+          id="searchPeca" 
+          placeholder="Digite o nome da peça..."
+          [(ngModel)]="termoBusca"
+          (input)="filtrarPecas()">
+      </div>
+
       <div class="table-responsive">
         <table class="table table-hover align-middle">
           <thead>
@@ -19,9 +30,13 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let peca of pecas">
+            <tr *ngFor="let peca of pecasFiltradas" 
+                [ngClass]="{
+                  'table-danger': peca.estoque === 0, 
+                  'table-warning': peca.estoque > 0 && peca.estoque <= lowStockThreshold
+                }">
               <td>{{ peca.nome }}</td>
-              <td>{{ peca.estoque }}</td>
+              <td [ngClass]="{'fw-bold': peca.estoque <= lowStockThreshold}">{{ peca.estoque }}</td>
               <td>{{ peca.preco | currency:'BRL' }}</td>
               <td class="text-end">
                 <button class="btn btn-sm btn-outline-primary me-2" (click)="openModal(peca)">
@@ -31,6 +46,9 @@
                   <i class="fas fa-trash"></i> Deletar
                 </button>
               </td>
+            </tr>
+            <tr *ngIf="pecasFiltradas.length === 0">
+              <td colspan="4" class="text-center">Nenhuma peça encontrada.</td>
             </tr>
           </tbody>
         </table>

@@ -1,0 +1,30 @@
+<div class="container-fluid">
+  <h1 class="h2 mb-4">Histórico de Serviços Concluídos</h1>
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped align-middle">
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Veículo</th>
+              <th>Data de Conclusão</th>
+              <th>Custo Final</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ordem of ordensConcluidas">
+              <td>{{ ordem.clienteNome }}</td>
+              <td>{{ ordem.veiculoDescricao }}</td>
+              <td>{{ ordem.data | date:'dd/MM/yyyy' }}</td>
+              <td>{{ ordem.custoTotal | currency:'BRL' }}</td>
+            </tr>
+            <tr *ngIf="ordensConcluidas.length === 0">
+              <td colspan="4" class="text-center">Nenhum serviço no histórico.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

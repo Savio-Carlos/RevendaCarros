@@ -1,0 +1,96 @@
+<div class="container-fluid">
+  <h1 class="h2 mb-4">Nova Venda de Peças</h1>
+
+  <div class="row g-4">
+    <div class="col-lg-7">
+      <div class="card shadow-sm">
+        <div class="card-header">
+          <h5 class="mb-0">Detalhes da Venda</h5>
+        </div>
+        <div class="card-body">
+          <h6 class="mb-3">1. Selecione o Cliente</h6>
+          <div class="input-group mb-4">
+            <select class="form-select form-select-sm" [(ngModel)]="clienteSelecionado">
+              <option [ngValue]="undefined" disabled>-- Escolha um cliente --</option>
+              <option *ngFor="let cliente of clientes" [ngValue]="cliente">{{ cliente.nome }}</option>
+            </select>
+            <button class="btn btn-sm btn-outline-secondary" type="button" (click)="abrirModalCadastroCliente()">Cadastrar Novo</button>
+          </div>
+
+          <hr>
+
+          <h6 class="mb-3">2. Adicione Peças</h6>
+          <div class="mb-2">
+            <label class="form-label small">Buscar Peça por Nome</label>
+            <input 
+                type="text" 
+                class="form-control form-control-sm" 
+                placeholder="Digite para buscar..."
+                [(ngModel)]="termoBuscaPeca"
+                (input)="filtrarPecas()">
+          </div>
+
+          <div class="row g-2 align-items-end">
+            <div class="col-sm-7">
+              <label class="form-label small">Peça</label>
+              <select class="form-select form-select-sm" [(ngModel)]="pecaSelecionada">
+                <option [ngValue]="undefined" disabled>-- Escolha uma peça --</option>
+                <option *ngFor="let peca of pecasFiltradas" [ngValue]="peca">
+                  {{ peca.nome }} (Estoque: {{ peca.estoque }})
+                </option>
+              </select>
+            </div>
+            <div class="col-sm-2">
+              <label class="form-label small">Qtd.</label>
+              <input type="number" class="form-control form-control-sm" [(ngModel)]="quantidadePeca" min="1">
+            </div>
+            <div class="col-sm-3">
+              <button class="btn btn-primary btn-sm w-100" (click)="adicionarPeca()">Adicionar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-5">
+      <div class="card shadow-sm sticky-top" style="top: 20px;">
+        <div class="card-header bg-dark text-white"><h5 class="mb-0">3. Resumo da Venda</h5></div>
+        <div class="card-body">
+          <div *ngIf="clienteSelecionado" class="mb-3">
+            <strong>Cliente:</strong> {{ clienteSelecionado.nome }}
+          </div>
+          <div *ngIf="!clienteSelecionado" class="text-muted">
+            Aguardando seleção do cliente...
+          </div>
+          <hr>
+          <h6 class="mb-3">Itens:</h6>
+          <ul class="list-group list-group-flush" *ngIf="itensDaVenda.length > 0">
+            <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let item of itensDaVenda">
+              <div>
+                {{ item.peca.nome }}
+                <br>
+                <small class="text-muted">{{ item.quantidade }} un. x {{ item.peca.preco | currency:'BRL' }}</small>
+              </div>
+              <div>
+                <span class="fw-bold me-3">{{ item.peca.preco * item.quantidade | currency:'BRL' }}</span>
+                <button class="btn btn-sm btn-outline-danger" (click)="removerPeca(item.peca.id)">&times;</button>
+              </div>
+            </li>
+          </ul>
+          <div *ngIf="itensDaVenda.length === 0" class="text-muted">
+            Nenhum item adicionado.
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="d-flex justify-content-between align-items-center fs-5 fw-bold">
+            <span>Total:</span>
+            <span>{{ totalDaVenda | currency:'BRL' }}</span>
+          </div>
+          <div class="d-grid mt-3">
+            <button class="btn btn-success btn-lg" (click)="finalizarVenda()">Finalizar Venda e Gerar Nota</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

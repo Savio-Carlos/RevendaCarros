@@ -1,0 +1,104 @@
+<div class="container-fluid">
+  <h1 class="h2 mb-4">Emitir Nova Ordem de Serviço</h1>
+
+  <div class="row g-4">
+    <!-- Coluna de Seleção e Detalhes -->
+    <div class="col-lg-7">
+      <!-- Card de Cliente e Veículo -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header"><h5 class="mb-0">1. Dados do Cliente e Veículo</h5></div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Cliente</label>
+              <div class="input-group">
+                <select class="form-select" [(ngModel)]="clienteSelecionado" (change)="onClienteChange()">
+                  <option [ngValue]="undefined" disabled>-- Escolha um cliente --</option>
+                  <option *ngFor="let c of clientes" [ngValue]="c">{{ c.nome }}</option>
+                </select>
+                <button class="btn btn-outline-secondary" type="button" (click)="abrirModalCadastroCliente()">Novo</button>
+              </div>
+            </div>
+            <div class="col-md-6" *ngIf="clienteSelecionado">
+              <label class="form-label">Veículo</label>
+              <select class="form-select" [(ngModel)]="veiculoSelecionado" [disabled]="!clienteSelecionado">
+                <option [ngValue]="undefined" disabled>-- Escolha um veículo --</option>
+                <option *ngFor="let v of clienteSelecionado.veiculos" [ngValue]="v">{{ v.modelo }} ({{ v.marca }})</option>
+              </select>
+            </div>
+            <div class="col-md-12" *ngIf="veiculoSelecionado">
+              <label class="form-label">Quilometragem Atual</label>
+              <input type="number" class="form-control" [(ngModel)]="quilometragemAtual" placeholder="Digite a KM do veículo">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card de Adicionar Itens -->
+      <div class="card shadow-sm">
+        <div class="card-header"><h5 class="mb-0">2. Adicionar Serviços e Peças</h5></div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Serviços Disponíveis</label>
+              <div class="list-group" style="max-height: 200px; overflow-y: auto;">
+                <a *ngFor="let servico of servicosDisponiveis" (click)="adicionarServico(servico)" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                  {{ servico.nome }}
+                  <span class="badge bg-primary rounded-pill">{{ servico.preco | currency:'BRL' }}</span>
+                </a>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Peças em Estoque</label>
+              <div class="list-group" style="max-height: 200px; overflow-y: auto;">
+                <a *ngFor="let peca of pecasDisponiveis" (click)="adicionarPeca(peca)" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                  {{ peca.nome }}
+                  <span class="badge bg-primary rounded-pill">{{ peca.preco | currency:'BRL' }}</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coluna de Resumo da Ordem -->
+    <div class="col-lg-5">
+      <div class="card shadow-sm sticky-top" style="top: 20px;">
+        <div class="card-header bg-dark text-white"><h5 class="mb-0">Resumo da Ordem de Serviço</h5></div>
+        <div class="card-body">
+          <div *ngIf="clienteSelecionado && veiculoSelecionado" class="mb-3">
+            <p class="mb-1"><strong>Cliente:</strong> {{ clienteSelecionado.nome }}</p>
+            <p class="mb-0"><strong>Veículo:</strong> {{ veiculoSelecionado.modelo }}</p>
+          </div>
+          <hr>
+          <h6>Serviços Adicionados:</h6>
+          <ul class="list-group list-group-flush mb-3">
+            <li *ngFor="let s of servicosSelecionados" class="list-group-item d-flex justify-content-between align-items-center py-1">
+              {{ s.nome }}
+              <button class="btn btn-sm btn-outline-danger py-0" (click)="removerItem('servico', s.id)">&times;</button>
+            </li>
+            <li *ngIf="servicosSelecionados.length === 0" class="list-group-item text-muted">Nenhum serviço.</li>
+          </ul>
+          <h6>Peças Adicionadas:</h6>
+          <ul class="list-group list-group-flush">
+            <li *ngFor="let p of pecasSelecionadas" class="list-group-item d-flex justify-content-between align-items-center py-1">
+              {{ p.nome }}
+              <button class="btn btn-sm btn-outline-danger py-0" (click)="removerItem('peca', p.id)">&times;</button>
+            </li>
+            <li *ngIf="pecasSelecionadas.length === 0" class="list-group-item text-muted">Nenhuma peça.</li>
+          </ul>
+        </div>
+        <div class="card-footer">
+          <div class="d-flex justify-content-between align-items-center fs-4 fw-bold">
+            <span>Total:</span>
+            <span>{{ custoTotal | currency:'BRL' }}</span>
+          </div>
+          <div class="d-grid mt-3">
+            <button class="btn btn-success btn-lg" (click)="emitirOrdem()">Emitir Ordem de Serviço</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

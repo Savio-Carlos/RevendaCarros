@@ -1,1 +1,97 @@
-<p>gerenteclientes works!</p>
+<div class="container-fluid">
+  <h1 class="h2 mb-4">Gestão de Clientes</h1>
+
+  <div class="accordion" id="accordionClientes">
+    <div class="accordion-item" *ngFor="let cliente of clientes; let i = index">
+      <h2 class="accordion-header" [id]="'heading' + i">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + i" aria-expanded="false">
+          <strong>{{ cliente.nome }}</strong> <span class="ms-auto text-muted">{{ cliente.email }}</span>
+        </button>
+      </h2>
+      
+      <div [id]="'collapse' + i" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading' + i">
+        <div class="accordion-body">
+          
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" [id]="'info-tab-'+i" data-bs-toggle="tab" [attr.data-bs-target]="'#info-'+i" type="button" role="tab">Informações Pessoais</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" [id]="'veiculos-tab-'+i" data-bs-toggle="tab" [attr.data-bs-target]="'#veiculos-'+i" type="button" role="tab">Veículos e Serviços</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" [id]="'compras-tab-'+i" data-bs-toggle="tab" [attr.data-bs-target]="'#compras-'+i" type="button" role="tab">Compras de Peças</button>
+            </li>
+          </ul>
+
+          <div class="tab-content border border-top-0 p-3">
+            <div class="tab-pane fade show active" [id]="'info-'+i" role="tabpanel">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>CPF:</strong> {{ cliente.cpf }}</li>
+                <li class="list-group-item"><strong>Contato:</strong> {{ cliente.contato }}</li>
+                <li class="list-group-item"><strong>Endereço:</strong> {{ cliente.endereco.logradouro }}, {{ cliente.endereco.numero }} - {{ cliente.endereco.bairro }}, {{ cliente.endereco.localidade }} - {{ cliente.endereco.uf }}, {{ cliente.endereco.cep }}</li>
+              </ul>
+            </div>
+
+            <div class="tab-pane fade" [id]="'veiculos-'+i" role="tabpanel">
+              
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">Veículos do Cliente</h5>
+                <button class="btn body-button text-white btn-sm" (click)="openAssociarCarroModal(cliente)">
+                  <i class="fas fa-plus me-1"></i> Registrar Novo Veículo
+                </button>
+              </div>
+              <div *ngFor="let veiculo of cliente.veiculos">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6>{{ veiculo.modelo }} ({{ veiculo.marca }})</h6>
+                    <button class="btn btn-sm btn-outline-danger" (click)="removerVeiculo(cliente, veiculo.id)">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+                    <table class="table table-sm table-bordered mb-4">
+                    </table>
+                </div>
+
+              <div *ngFor="let veiculo of cliente.veiculos">
+                <h6>{{ veiculo.modelo }} ({{ veiculo.marca }})</h6>
+                <table class="table table-sm table-bordered">
+                  <thead><tr><th>Data</th><th>KM</th><th>Mecânico</th><th>Custo Total</th></tr></thead>
+                  <tbody>
+                    <tr *ngFor="let revisao of veiculo.revisoes">
+                      <td>{{ revisao.data | date:'dd/MM/yyyy' }}</td>
+                      <td>{{ revisao.quilometragem | number }} km</td>
+                      <td>{{ revisao.mecanicoResponsavel }}</td>
+                      <td>{{ revisao.custoTotal | currency:'BRL' }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div *ngIf="cliente.veiculos.length === 0" class="alert alert-secondary mt-3">
+                Este cliente ainda não possui veículos registrados.
+              </div>
+            </div>
+            <div class="tab-pane fade" [id]="'compras-'+i" role="tabpanel">
+              <table class="table table-sm table-bordered">
+                <thead><tr><th>Data</th><th>Itens</th><th>Valor Total</th></tr></thead>
+                <tbody>
+                  <tr *ngFor="let compra of cliente.comprasPecas">
+                    <td>{{ compra.dataCompra | date:'dd/MM/yyyy' }}</td>
+                    <td>
+                      <ul class="list-unstyled mb-0"><li *ngFor="let item of compra.itens">{{ item.nome }}</li></ul>
+                    </td>
+                    <td>{{ compra.valorTotal | currency:'BRL' }}</td>
+                  </tr>
+                </tbody>
+                <tbody *ngIf="cliente.comprasPecas.length === 0">
+                  <tr><td colspan="3" class="text-center">Nenhuma compra de peças registrada.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
