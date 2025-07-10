@@ -29,6 +29,7 @@ import { NovaVendaCarroComponent } from './components/vendas/nova-venda-carro/no
 import { MecanicoHistoricoComponent } from './components/layout/mecanico/mecanico-historico/mecanico-historico.component';
 import { MecanicoNovaOrdemComponent } from './components/layout/mecanico/mecanico-nova-ordem/mecanico-nova-ordem.component';
 import { MecanicoServicosAbertosComponent } from './components/layout/mecanico/mecanico-servicos-abertos/mecanico-servicos-abertos.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
     {path: "", redirectTo: "principal", pathMatch: 'full'},
@@ -43,19 +44,27 @@ export const routes: Routes = [
         {path: "servicos/:id", component: ServicosdetailsComponent},
         {path: "carrinho", component: CarrinhoComponent}
     ]},
-    {path: "gerente", component: GerenteComponent, children: [  
-            { path: "", redirectTo: "dashboard", pathMatch: 'full' },
-            { path: "estoque", component: VendedorpecasComponent },
-            { path: "veiculos", component: VendedorcarrosComponent }, 
-            { path: "clientes", component: GerenteclientesComponent },
-            { path: "equipe", component: GerenteEquipeComponent },
-            { path: "dashboard", component: GerentedashboardComponent },
-            { path: "vendas", component: VendedorvendasComponent },
-            { path: "vendas-pendentes", component: VendasPendentesComponent },
-            { path: "nova-venda", component: NovaVendaComponent },
-            { path: "nova-venda-carro", component: NovaVendaCarroComponent }
+    {path: "gerente", 
+        component: GerenteComponent, 
+        canActivate: [authGuard], 
+        data: { roles: ['gerente'] },
+        children: [  
+        { path: "", redirectTo: "dashboard", pathMatch: 'full' },
+        { path: "estoque", component: VendedorpecasComponent },
+        { path: "veiculos", component: VendedorcarrosComponent }, 
+        { path: "clientes", component: GerenteclientesComponent },
+        { path: "equipe", component: GerenteEquipeComponent },
+        { path: "dashboard", component: GerentedashboardComponent },
+        { path: "vendas", component: VendedorvendasComponent },
+        { path: "vendas-pendentes", component: VendasPendentesComponent },
+        { path: "nova-venda", component: NovaVendaComponent },
+        { path: "nova-venda-carro", component: NovaVendaCarroComponent }
     ]},
-    {path: "vendedor", component: VendedorComponent, children: [
+    {path: "vendedor", 
+        component: VendedorComponent, 
+        canActivate: [authGuard],
+        data: { roles: ['vendedor', 'gerente'] },
+        children: [
         { path: "", redirectTo: "dashboard", pathMatch: 'full' },
         { path: "dashboard", component: VendedordashboardComponent },
         { path: "carros", component: VendedorcarrosComponent },
@@ -66,13 +75,21 @@ export const routes: Routes = [
         { path: "nova-venda", component: NovaVendaComponent },
         { path: "nova-venda-carro", component: NovaVendaCarroComponent }
     ]},
-    {path: "mecanico", component: MecanicoComponent, children: [
+    {path: "mecanico", 
+        component: MecanicoComponent, 
+        canActivate: [authGuard],
+        data: { roles: ['mecanico', 'gerente'] }, 
+        children: [
         { path: "", redirectTo: "nova-ordem", pathMatch: 'full' },
         { path: "nova-ordem", component: MecanicoNovaOrdemComponent },
         { path: "servicos-abertos", component: MecanicoServicosAbertosComponent },
         { path: "historico", component: MecanicoHistoricoComponent },
     ]},
-    {path: "cliente", component: ClienteComponent, children: [
+    {path: "cliente", 
+        component: ClienteComponent, 
+        canActivate: [authGuard],   
+        data: { roles: ['cliente'] },
+        children: [
         { path: "", redirectTo: "carros", pathMatch: 'full' },
         { path: "carros", component: ClienteMeusCarrosComponent },
         { path: "servicos", component: ClienteServicosComponent },

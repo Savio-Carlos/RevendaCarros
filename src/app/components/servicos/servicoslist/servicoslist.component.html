@@ -6,9 +6,16 @@
       <i class="fas fa-info-circle me-2"></i>
       Não precisa agendar! Traga seu veículo para uma avaliação sem compromisso.
     </div>
+    
+    <div class="card bg-light border-0 mt-4">
+      <div class="card-body">
+        <h5 class="card-title"><i class="fas fa-map-marker-alt me-2"></i>Nossa Localização</h5>
+        <p class="card-text mb-0">Avenida das Cataratas, 1234 - Vila Yolanda, Foz do Iguaçu - PR</p>
+      </div>
+    </div>
   </div>
 
-  <ul class="nav nav-pills  justify-content-center mb-4">
+  <ul class="nav nav-pills justify-content-center mb-4">
     <li class="nav-item" *ngFor="let categoria of categorias">
       <a class="nav-link body-button text-white" 
          [class.active]="categoria === categoriaSelecionada" 

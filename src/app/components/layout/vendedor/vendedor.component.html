@@ -60,22 +60,20 @@
       <hr>
 
     </ul>
-    
-    <li class="nav-item mt-auto">
-      <a routerLink="/principal" class="nav-link text-white">
-        <i class="fas fa-arrow-left me-2"></i>
-        Voltar à Página Principal
-      </a>
-    </li>
+        <div class="p-2 ">
+      <button class="btn btn-danger w-100" (click)="logout()">
+        <i class="fas fa-sign-out-alt me-2"></i>
+        Sair
+      </button>
+    </div>
     <hr>
+    
     <div class="dropdown">
       <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
         <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
         <strong>Vendedor</strong>
       </a>
-      <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-        <li><a class="dropdown-item" routerLink="/login">Sign out</a></li>
-      </ul>
+
     </div>
   </div>
 

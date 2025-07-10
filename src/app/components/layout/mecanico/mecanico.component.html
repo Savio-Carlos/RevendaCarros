@@ -27,10 +27,10 @@
       <hr>
     </ul>
       <li class="nav-item mt-auto">
-        <a routerLink="/principal" class="nav-link text-white">
-        <i class="fas fa-arrow-left me-2"></i>
-        Voltar à Página Principal
-        </a>
+        <button class="btn btn-danger w-100" (click)="logout()">
+          <i class="fas fa-sign-out-alt fa-flip-horizontal me-2"></i> <!-- Classe fa-flip-horizontal adicionada -->
+          Sair
+        </button>
       </li>
     <hr>
     <div class="dropdown">

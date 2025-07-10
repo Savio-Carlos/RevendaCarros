@@ -5,6 +5,7 @@ import {MdbFormsModule} from 'mdb-angular-ui-kit/forms'
 import { MenuComponent } from '../menu/menu.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'; //
 import { RegisterModalComponent } from '../registromodal/registromodal.component';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -20,20 +21,13 @@ export class LoginComponent {
   router = inject(Router);
   modalService = inject(NgbModal);
 
-  logar(){
-    if (this.usuario == 'gerente' && this.senha == 'gerente'){
-      this.router.navigate(['gerente'])
+  authService = inject(AuthService);
+
+  logar() {
+    const sucesso = this.authService.login(this.usuario, this.senha);
+    if (!sucesso) {
+      alert('Usuário e/ou senha incorretos!');
     }
-    else if (this.usuario == 'cliente' && this.senha == 'cliente'){
-      this.router.navigate(['cliente'])
-    }
-    else if (this.usuario == 'mecanico' && this.senha == 'mecanico'){
-      this.router.navigate(['mecanico'])
-    }
-    else if (this.usuario == 'vendedor' && this.senha == 'vendedor'){
-      this.router.navigate(['vendedor'])
-    }
-    else alert('Usuario e/ou senha incorretos!')
   }
 
     openRegisterModal() {
