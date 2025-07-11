@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <h4 class="modal-title">Cadastrar Veículo do Cliente</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+<div class="modal-body">
+  <form #veiculoForm="ngForm">
+    <div class="mb-3">
+      <label for="marca" class="form-label">Marca</label>
+      <input type="text" class="form-control" name="marca" [(ngModel)]="novoVeiculo.marca" required>
+    </div>
+    <div class="mb-3">
+      <label for="modelo" class="form-label">Modelo</label>
+      <input type="text" class="form-control" name="modelo" [(ngModel)]="novoVeiculo.modelo" required>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="ano" class="form-label">Ano</label>
+        <input type="number" class="form-control" name="ano" [(ngModel)]="novoVeiculo.ano" required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="placa" class="form-label">Placa</label>
+        <input type="text" class="form-control" name="placa" [(ngModel)]="novoVeiculo.placa" required>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.dismiss()">Cancelar</button>
+  <button type="button" class="btn btn-primary" (click)="salvar()" [disabled]="!veiculoForm.valid">Salvar Veículo</button>
+</div>

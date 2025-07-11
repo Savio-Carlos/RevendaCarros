@@ -8,4 +8,5 @@ export class Carro {
     cambio!: string;
     kms!: number;
     fotoUrl!: string;
+    placa!: string;
 }

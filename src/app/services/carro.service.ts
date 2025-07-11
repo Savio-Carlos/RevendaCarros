@@ -7,14 +7,13 @@ import { Carro } from '../models/carro';
 })
 export class CarroService {
 
-  // We make this a private property so it can be modified by our methods
-  private MOCK_CARROS: Carro[] = [
-    { id: 1, modelo: 'HB20 Sense', marca: 'Hyundai', ano: 2022, preco: 75000, kms: 25000, combustivel: 'Flex', cambio: 'Manual', fotoUrl: 'assets/images/hb20.webp' },
-    { id: 2, modelo: 'Onix Plus Turbo', marca: 'Chevrolet', ano: 2023, preco: 96000, kms: 15000, combustivel: 'Flex', cambio: 'Automático', fotoUrl: 'assets/images/onix.webp' },
-    { id: 3, modelo: 'Compass Longitude', marca: 'Jeep', ano: 2021, preco: 140000, kms: 45000, combustivel: 'Diesel', cambio: 'Automático', fotoUrl: 'assets/images/compass.webp' },
-    { id: 4, modelo: 'Mobi Like', marca: 'Fiat', ano: 2024, preco: 72000, kms: 5000, combustivel: 'Gasolina', cambio: 'Manual', fotoUrl: 'assets/images/mobi.webp' },
-    { id: 5, modelo: 'Corolla Cross XRE', marca: 'Toyota', ano: 2023, preco: 177000, kms: 12000, combustivel: 'Flex', cambio: 'Automático', fotoUrl: 'assets/images/cross.png' }
-  ];
+private MOCK_CARROS: Carro[] = [
+    { id: 1, modelo: 'HB20 Sense', marca: 'Hyundai', ano: 2022, preco: 75000, kms: 25000, combustivel: 'Flex', cambio: 'Manual', fotoUrl: 'assets/images/hb20.webp', placa: 'ABC-1234' },
+    { id: 2, modelo: 'Onix Plus Turbo', marca: 'Chevrolet', ano: 2023, preco: 96000, kms: 15000, combustivel: 'Flex', cambio: 'Automático', fotoUrl: 'assets/images/onix.webp', placa: 'DEF-5678' },
+    { id: 3, modelo: 'Compass Longitude', marca: 'Jeep', ano: 2021, preco: 140000, kms: 45000, combustivel: 'Diesel', cambio: 'Automático', fotoUrl: 'assets/images/compass.webp', placa: 'GHI-9012' },
+    { id: 4, modelo: 'Mobi Like', marca: 'Fiat', ano: 2024, preco: 72000, kms: 5000, combustivel: 'Gasolina', cambio: 'Manual', fotoUrl: 'assets/images/mobi.webp', placa: 'JKL-3456' },
+    { id: 5, modelo: 'Corolla Cross XRE', marca: 'Toyota', ano: 2023, preco: 177000, kms: 12000, combustivel: 'Flex', cambio: 'Automático', fotoUrl: 'assets/images/corolla.webp', placa: 'MNO-7890' }
+];
 
   constructor() { }
 

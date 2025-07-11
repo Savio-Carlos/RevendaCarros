@@ -12,6 +12,7 @@ import { PecaService } from '../../../../services/peca.service';
 import { ServicoService } from '../../../../services/servico.service';
 import { OrdemServicoService } from '../../../../services/ordem-servico.service';
 import { RegisterModalComponent } from '../../registromodal/registromodal.component';
+import { RegistrarVeiculoModalComponent } from '../../../cliente/registrar-veiculo-modal/registrar-veiculo-modal.component';
 
 @Component({
   selector: 'app-mecanico-nova-ordem',
@@ -126,5 +127,42 @@ export class MecanicoNovaOrdemComponent implements OnInit {
       this.custoTotal = 0;
       this.quilometragemAtual = 0;
     });
+  }
+
+    abrirModalCadastroVeiculo(): void {
+    if (!this.clienteSelecionado) {
+      alert('Selecione um cliente primeiro!');
+      return;
+    }
+
+    const modalRef = this.modalService.open(RegistrarVeiculoModalComponent);
+    modalRef.result.then((veiculoData) => {
+      if (veiculoData) {
+        // Cria um objeto VeiculoCliente completo com os dados do modal
+        const novoVeiculo: VeiculoCliente = {
+          id: Math.random(), // ID de exemplo
+          modelo: veiculoData.modelo,
+          marca: veiculoData.marca,
+          ano: veiculoData.ano,
+          placa: veiculoData.placa, // Propriedade nova, se quiser adicioná-la ao modelo
+          // Preenche o resto com valores padrão
+          preco: 0,
+          kms: 0,
+          combustivel: '',
+          cambio: '',
+          fotoUrl: 'assets/images/carro_placeholder.png', // Uma imagem genérica
+          dataCompra: new Date(),
+          quilometragemAtual: 0,
+          revisoes: []
+        };
+
+        // Adiciona o novo veículo à lista do cliente (apenas na interface por enquanto)
+        this.clienteSelecionado!.veiculos.push(novoVeiculo);
+        // Seleciona automaticamente o veículo recém-cadastrado
+        this.veiculoSelecionado = novoVeiculo;
+        
+        alert(`Veículo ${novoVeiculo.modelo} cadastrado para ${this.clienteSelecionado!.nome} com sucesso!`);
+      }
+    }).catch(() => {});
   }
 }

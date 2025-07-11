@@ -16,6 +16,7 @@ export class ClienteService {
       ano: 2024,
       preco: 140000,
       kms: 18500,
+      placa: 'GHI-9012',
       combustivel: 'Diesel',
       cambio: 'Automático',
       fotoUrl: 'assets/images/compass.webp',

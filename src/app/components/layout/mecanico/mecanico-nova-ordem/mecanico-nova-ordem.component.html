@@ -21,6 +21,13 @@
             </div>
             <div class="col-md-6" *ngIf="clienteSelecionado">
               <label class="form-label">Veículo</label>
+                  <div class="input-group">
+                  <select class="form-select" [(ngModel)]="veiculoSelecionado" [disabled]="!clienteSelecionado">
+                    <option [ngValue]="undefined" disabled>-- Escolha um veículo --</option>
+                    <option *ngFor="let v of clienteSelecionado.veiculos" [ngValue]="v">{{ v.modelo }} ({{ v.marca }})</option>
+                  </select>
+                  <button class="btn btn-outline-secondary" type="button" (click)="abrirModalCadastroVeiculo()">Novo</button>
+                </div>
               <select class="form-select" [(ngModel)]="veiculoSelecionado" [disabled]="!clienteSelecionado">
                 <option [ngValue]="undefined" disabled>-- Escolha um veículo --</option>
                 <option *ngFor="let v of clienteSelecionado.veiculos" [ngValue]="v">{{ v.modelo }} ({{ v.marca }})</option>

@@ -20,7 +20,7 @@ export class GerenteService {
       endereco: { cep: '85851-000', logradouro: 'Av. Brasil', numero: '123', bairro: 'Centro', localidade: 'Foz do Iguaçu', uf: 'PR' },
       veiculos: [
         {
-          id: 3, modelo: 'Compass Longitude', marca: 'Jeep', ano: 2024, preco: 140000, kms: 18500, combustivel: 'Diesel', cambio: 'Automático', fotoUrl: 'assets/images/compass.webp',
+          id: 3, modelo: 'Compass Longitude', placa: 'GHI-9012', marca: 'Jeep', ano: 2024, preco: 140000, kms: 18500, combustivel: 'Diesel', cambio: 'Automático', fotoUrl: 'assets/images/compass.webp',
           dataCompra: new Date('2024-01-15'), quilometragemAtual: 28300,
           revisoes: [
             // ✅ OBJETO DE REVISÃO CORRIGIDO
@@ -66,7 +66,7 @@ export class GerenteService {
       endereco: { cep: '85852-000', logradouro: 'Rua das Flores', numero: '456', bairro: 'Jardim das Laranjeiras', localidade: 'Foz do Iguaçu', uf: 'PR' },
       veiculos: [
         {
-          id: 2, modelo: 'Onix Plus Turbo', marca: 'Chevrolet', ano: 2023, preco: 96000, kms: 5000, combustivel: 'Flex', cambio: 'Automático', fotoUrl: 'assets/images/onix.webp',
+          id: 2, modelo: 'Onix Plus Turbo', placa: 'ASI-1231', marca: 'Chevrolet', ano: 2023, preco: 96000, kms: 5000, combustivel: 'Flex', cambio: 'Automático', fotoUrl: 'assets/images/onix.webp',
           dataCompra: new Date('2023-11-20'), quilometragemAtual: 10500,
           revisoes: [
             // ✅ OBJETO DE REVISÃO CORRIGIDO
