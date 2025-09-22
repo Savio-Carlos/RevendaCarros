@@ -6,8 +6,6 @@ import { VeiculoCliente } from '../models/veiculocliente';
   providedIn: 'root'
 })
 export class ClienteService {
-
-  // Dados de exemplo para um cliente logado, agora com a estrutura de dados completa
   private MOCK_VEICULOS_CLIENTE: VeiculoCliente[] = [
     {
       id: 3,
@@ -55,7 +53,7 @@ export class ClienteService {
           ],
           mecanicoResponsavel: 'Carlos Pereira',
           custoTotal: 565.50,
-          // ✅ Propriedades que faltavam foram adicionadas
+          
           status: 'Concluído',
           clienteNome: 'Carlos Eduardo',
           veiculoDescricao: 'Compass Longitude (Jeep)'
