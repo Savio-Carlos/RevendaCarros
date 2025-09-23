@@ -1,6 +1,26 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Carro } from '../models/carro';
+
+export interface VeiculoAPI {
+  numChassi: string;
+  placa: string;
+  marcaCarro: string;
+  modeloVeiculo: string;
+  anoModelo: number;
+  quilometragem: number;
+  cor: string;
+  descricao: string;
+  fotos: string;
+  idtipoCombustivel: number;
+  idGarantia: number;
+  idCliente: number;
+  
+  precoVeiculo: number;
+  fotoUrl?: string; // fotoUrl pode não existir, então use o nome do seu modelo Carro.ts
+}
 
 @Injectable({
   providedIn: 'root'
