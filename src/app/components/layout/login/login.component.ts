@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import {MdbFormsModule} from 'mdb-angular-ui-kit/forms'
 import { MenuComponent } from '../menu/menu.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap'; //
-import { RegisterModalComponent } from '../registromodal/registromodal.component';
+import { RegistromodalComponent } from '../registromodal/registromodal.component';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
@@ -31,6 +31,6 @@ export class LoginComponent {
   }
 
     openRegisterModal() {
-    this.modalService.open(RegisterModalComponent);
+    this.modalService.open(RegistromodalComponent);
   }
 }

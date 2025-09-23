@@ -11,7 +11,7 @@ import { GerenteService } from '../../../../services/gerente.service';
 import { PecaService } from '../../../../services/peca.service';
 import { ServicoService } from '../../../../services/servico.service';
 import { OrdemServicoService } from '../../../../services/ordem-servico.service';
-import { RegisterModalComponent } from '../../registromodal/registromodal.component';
+import { RegistromodalComponent } from '../../registromodal/registromodal.component';
 import { RegistrarVeiculoModalComponent } from '../../../cliente/registrar-veiculo-modal/registrar-veiculo-modal.component';
 
 @Component({
@@ -54,7 +54,7 @@ export class MecanicoNovaOrdemComponent implements OnInit {
   }
 
   abrirModalCadastroCliente(): void {
-    const modalRef = this.modalService.open(RegisterModalComponent, { size: 'lg' });
+    const modalRef = this.modalService.open(RegistromodalComponent, { size: 'lg' });
     modalRef.result.then((novoCliente) => {
       if (novoCliente) {
         const clienteParaAdicionar: Cliente = { id: Math.random(), ...novoCliente, veiculos: [], comprasPecas: [] };

@@ -15,8 +15,8 @@ export class ClienteServicosComponent implements OnInit {
   constructor(private clienteService: ClienteService) {}
 
   ngOnInit(): void {
-    this.clienteService.getMeusVeiculos().subscribe(data => {
-      this.meusVeiculos = data.filter(v => v.revisoes && v.revisoes.length > 0);
-    });
+    // this.clienteService.getMeusVeiculos().subscribe(data => {
+    //   this.meusVeiculos = data.filter(v => v.revisoes && v.revisoes.length > 0);
+    // });
   }
 }

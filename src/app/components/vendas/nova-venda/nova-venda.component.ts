@@ -7,7 +7,7 @@ import { Peca } from '../../../models/peca';
 import { Itemcarrinho } from '../../../models/itemcarrinho';
 import { GerenteService } from '../../../services/gerente.service';
 import { PecaService } from '../../../services/peca.service';
-import { RegisterModalComponent } from '../../layout/registromodal/registromodal.component';
+import { RegistromodalComponent } from '../../layout/registromodal/registromodal.component';
 
 @Component({
   selector: 'app-nova-venda',
@@ -63,7 +63,7 @@ constructor(
   }
 
   abrirModalCadastroCliente(): void {
-    const modalRef = this.modalService.open(RegisterModalComponent, { size: 'lg' });
+    const modalRef = this.modalService.open(RegistromodalComponent, { size: 'lg' });
     modalRef.result.then((novoCliente) => {
       if (novoCliente) {
 

@@ -15,9 +15,9 @@ export class ClienteMeusCarrosComponent implements OnInit {
   constructor(private clienteService: ClienteService) {}
 
   ngOnInit(): void {
-    this.clienteService.getMeusVeiculos().subscribe(data => {
-      this.meusVeiculos = data;
-    });
+    // this.clienteService.getMeusVeiculos().subscribe(data => {
+    //   this.meusVeiculos = data;
+    // });
   }
 
   // Lógica de Garantia

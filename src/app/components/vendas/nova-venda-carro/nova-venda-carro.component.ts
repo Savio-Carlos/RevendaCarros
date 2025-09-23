@@ -6,7 +6,7 @@ import { Cliente } from '../../../models/cliente';
 import { Carro } from '../../../models/carro';
 import { GerenteService } from '../../../services/gerente.service';
 import { AddCarroService } from '../../../services/addcarro.service';
-import { RegisterModalComponent } from '../../layout/registromodal/registromodal.component';
+import { RegistromodalComponent } from '../../layout/registromodal/registromodal.component';
 
 @Component({
   selector: 'app-nova-venda-carro',
@@ -42,7 +42,7 @@ export class NovaVendaCarroComponent implements OnInit {
   }
 
   abrirModalCadastroCliente(): void {
-    const modalRef = this.modalService.open(RegisterModalComponent, { size: 'lg' });
+    const modalRef = this.modalService.open(RegistromodalComponent, { size: 'lg' });
     modalRef.result.then((novoCliente) => {
       if (novoCliente) {
         const clienteParaAdicionar: Cliente = { id: Math.random(), ...novoCliente, veiculos: [], comprasPecas: [] };
