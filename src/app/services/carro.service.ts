@@ -1,75 +1,58 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Carro } from '../models/carro';
-
-export interface VeiculoAPI {
-  numChassi: string;
-  placa: string;
-  marcaCarro: string;
-  modeloVeiculo: string;
-  anoModelo: number;
-  quilometragem: number;
-  cor: string;
-  descricao: string;
-  fotos: string;
-  idtipoCombustivel: number;
-  idGarantia: number;
-  idCliente: number;
-  
-  precoVeiculo: number;
-  fotoUrl?: string; // fotoUrl pode não existir, então use o nome do seu modelo Carro.ts
-}
+import { Observable } from 'rxjs';
+import { Carro } from '../models/carro'; // Verifique se o modelo Carro existe
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarroService {
+  // APONTA PARA O NOSSO ENDPOINT DE VEÍCULOS
+  private apiUrl = 'http://localhost:8080/api/veiculos';
 
-private MOCK_CARROS: Carro[] = [
-    { id: 1, modelo: 'HB20 Sense', marca: 'Hyundai', ano: 2022, preco: 75000, kms: 25000, combustivel: 'Flex', cambio: 'Manual', fotoUrl: 'assets/images/hb20.webp', placa: 'ABC-1234' },
-    { id: 2, modelo: 'Onix Plus Turbo', marca: 'Chevrolet', ano: 2023, preco: 96000, kms: 15000, combustivel: 'Flex', cambio: 'Automático', fotoUrl: 'assets/images/onix.webp', placa: 'DEF-5678' },
-    { id: 3, modelo: 'Compass Longitude', marca: 'Jeep', ano: 2021, preco: 140000, kms: 45000, combustivel: 'Diesel', cambio: 'Automático', fotoUrl: 'assets/images/compass.webp', placa: 'GHI-9012' },
-    { id: 4, modelo: 'Mobi Like', marca: 'Fiat', ano: 2024, preco: 72000, kms: 5000, combustivel: 'Gasolina', cambio: 'Manual', fotoUrl: 'assets/images/mobi.webp', placa: 'JKL-3456' },
-    { id: 5, modelo: 'Corolla Cross XRE', marca: 'Toyota', ano: 2023, preco: 177000, kms: 12000, combustivel: 'Flex', cambio: 'Automático', fotoUrl: 'assets/images/corolla.webp', placa: 'MNO-7890' }
-];
+  constructor(private http: HttpClient) { }
 
-  constructor() { }
-
-  getAll(): Observable<Carro[]> {
-    return of(this.MOCK_CARROS);
+  // Método para buscar todos os veículos
+  getCarros(): Observable<Carro[]> {
+    return this.http.get<Carro[]>(this.apiUrl);
   }
 
-  getById(id: number): Observable<Carro | undefined> {
-    const carro = this.MOCK_CARROS.find(c => c.id === id);
-    return of(carro);
+  // Método para buscar um veículo pelo chassi
+  getCarroByChassi(chassi: string): Observable<Carro> {
+    return this.http.get<Carro>(`${this.apiUrl}/${chassi}`);
   }
 
-  // ✅ NEW METHOD TO ADD A CAR
-  add(carro: Carro): Observable<Carro> {
-    // Simulate creating a new ID
-    const newId = Math.max(...this.MOCK_CARROS.map(c => c.id)) + 1;
-    carro.id = newId;
-    this.MOCK_CARROS.push(carro);
-    return of(carro);
+  // Método para cadastrar um novo veículo
+  createCarro(carro: Carro): Observable<any> {
+    // Backend espera o shape de Veiculo e valida placa (7 chars) e outros campos
+    const placaSanitizada = (carro.placa || '').replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+    const chassi = (carro.numChassi || '').toUpperCase();
+    const payload: any = {
+      numChassi: chassi,
+      placa: placaSanitizada,
+      marcaCarro: carro.marcaCarro,
+      modeloVeiculo: carro.modeloVeiculo,
+      anoModelo: carro.anoModelo,
+      quilometragem: carro.quilometragem,
+      cor: carro.cor,
+      precoVeiculo: carro.precoVeiculo,
+      descricao: carro.descricao,
+  fotos: carro.fotos,
+      // Campos de FK esperados pelo DAO/BD
+      idGarantia: 1, // precisa existir um registro na tabela Garantia com id = 1
+      idStatusVeiculo: carro.idStatusVeiculo ?? 1,
+  idtipoCombustivel: 1, // precisa existir um registro em TipoCombustivel com id = 1
+    };
+    return this.http.post(this.apiUrl, payload, { responseType: 'text' as 'json' });
   }
 
-  // ✅ NEW METHOD TO UPDATE A CAR
-  update(carroToUpdate: Carro): Observable<Carro> {
-    const index = this.MOCK_CARROS.findIndex(c => c.id === carroToUpdate.id);
-    if (index !== -1) {
-      this.MOCK_CARROS[index] = carroToUpdate;
-    }
-    return of(carroToUpdate);
+  // Método para atualizar um veículo existente
+  updateCarro(chassi: string, carro: Carro): Observable<Carro> {
+    return this.http.put<Carro>(`${this.apiUrl}/${chassi}`, carro);
   }
 
-  // ✅ NEW METHOD TO DELETE A CAR
-  delete(id: number): Observable<any> {
-    const index = this.MOCK_CARROS.findIndex(c => c.id === id);
-    if (index !== -1) {
-      this.MOCK_CARROS.splice(index, 1);
-    }
-    return of(null);
+  // Método para deletar um veículo pelo chassi
+  deleteCarro(chassi: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${chassi}`);
   }
 }

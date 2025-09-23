@@ -3,16 +3,16 @@
 
   <div *ngIf="meusVeiculos.length > 0; else noServices">
     <div *ngFor="let veiculo of meusVeiculos">
-      <h3 class="mb-3">Serviços para: {{ veiculo.modelo }}</h3>
+      <h3 class="mb-3">Serviços para: {{ veiculo.modeloVeiculo }}</h3>
 
-      <div class="accordion" id="accordionServicos-{{veiculo.id}}">
+      <div class="accordion" id="accordionServicos-{{veiculo.numChassi}}">
         <div class="accordion-item mb-3" *ngFor="let revisao of veiculo.revisoes; let i = index">
-          <h2 class="accordion-header" [id]="'heading' + i + '-' + veiculo.id">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + i + '-' + veiculo.id" aria-expanded="true">
+          <h2 class="accordion-header" [id]="'heading' + i + '-' + veiculo.numChassi">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + i + '-' + veiculo.numChassi" aria-expanded="true">
               <strong>Revisão de {{ revisao.quilometragem | number }} km</strong> - {{ revisao.data | date:'dd/MM/yyyy' }}
             </button>
           </h2>
-          <div [id]="'collapse' + i + '-' + veiculo.id" class="accordion-collapse collapse show" [attr.aria-labelledby]="'heading' + i + '-' + veiculo.id">
+          <div [id]="'collapse' + i + '-' + veiculo.numChassi" class="accordion-collapse collapse show" [attr.aria-labelledby]="'heading' + i + '-' + veiculo.numChassi">
             <div class="accordion-body">
               <p><strong>Mecânico Responsável:</strong> {{ revisao.mecanicoResponsavel }}</p>
               <hr>

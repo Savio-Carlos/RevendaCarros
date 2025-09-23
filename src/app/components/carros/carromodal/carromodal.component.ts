@@ -13,8 +13,21 @@ import { Carro } from '../../../models/carro';
 export class CarromodalComponent implements OnInit {
   @Input() carroToEdit?: Carro;
 
-  carro: Carro = new Carro();
+  carro: Carro = {
+    numChassi: '',
+    placa: '',
+    marcaCarro: '',
+    modeloVeiculo: '',
+    anoModelo: new Date().getFullYear(),
+    quilometragem: 0,
+    cor: '',
+    precoVeiculo: 0,
+    descricao: '',
+    fotos: '',
+    idStatusVeiculo: 1,
+  };
   isEditMode = false;
+  maxAno = new Date().getFullYear() + 1;
 
   constructor(public activeModal: NgbActiveModal) {}
 

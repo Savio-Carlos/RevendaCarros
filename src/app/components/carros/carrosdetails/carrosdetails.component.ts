@@ -22,12 +22,11 @@ export class CarrosdetailsComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-  // 1. Get the 'id' from the URL parameters
-  const idParam = this.route.snapshot.paramMap.get('id');
-    if (idParam) {
-      const carId = +idParam; // The '+' converts the string 'id' to a number
-      // 2. Use the id to fetch the car data from the service
-      this.carroService.getById(carId).subscribe(data => {
+  // 1. Get the 'chassi' from the URL parameters
+  const chassiParam = this.route.snapshot.paramMap.get('chassi');
+    if (chassiParam) {
+      // 2. Use the chassi to fetch the car data from the service
+      this.carroService.getCarroByChassi(chassiParam).subscribe((data: Carro) => {
         this.carro = data;
       });
     }

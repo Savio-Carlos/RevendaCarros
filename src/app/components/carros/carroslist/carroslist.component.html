@@ -3,7 +3,7 @@
   <div class="row">
     <!-- Coluna de filtros -->
     <aside class="col-lg-3">
-      <app-carros-filter (filterChange)="onFilterChange($event)"></app-carros-filter>
+      <app-carros-filter (filterChange)="onFilterChange($any($event))"></app-carros-filter>
     </aside>
 
     <!-- Coluna de listagem -->
@@ -15,18 +15,18 @@
         >
           <div class="card h-100 shadow-sm">
             <img
-              [src]="carro.fotoUrl"
+              [src]="carro.fotos"
               class="card-img-top"
-              [alt]="carro.modelo"
+              [alt]="carro.modeloVeiculo"
             />
             <div class="card-body d-flex flex-column">
-              <span class="badge bg-danger mb-2">{{ carro.marca }}</span>
-              <h5 class="card-title">{{ carro.modelo }}</h5>
+              <span class="badge bg-danger mb-2">{{ carro.marcaCarro }}</span>
+              <h5 class="card-title">{{ carro.modeloVeiculo }}</h5>
               <p class="card-text small text-muted mb-1">
-                {{ carro.ano }} · {{ carro.kms | number }} km
+                {{ carro.anoModelo }} · {{ carro.quilometragem | number }} km
               </p>
-              <h6 class="mt-auto">R$ {{ carro.preco | number:'1.0-0' }}</h6>
-              <a [routerLink]="['/principal/carros', carro.id]" class="btn btn-dark mt-2">
+              <h6 class="mt-auto">R$ {{ carro.precoVeiculo | number:'1.0-0' }}</h6>
+              <a [routerLink]="['/principal/carros', carro.numChassi]" class="btn btn-dark mt-2">
                 Ver oferta
               </a>
             </div>

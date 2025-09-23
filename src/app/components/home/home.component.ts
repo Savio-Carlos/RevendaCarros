@@ -13,14 +13,14 @@ import { CarroService } from '../../services/carro.service';
 })
 export class HomeComponent implements OnInit {
   
-  carrosDestaque: Carro[] = [];
+  carrosExibidos: Carro[] = [];
 
   constructor(private carroService: CarroService) {}
 
   ngOnInit(): void {
     // Pega os 3 primeiros carros do serviço para usar como destaque
-    this.carroService.getAll().subscribe(carros => {
-      this.carrosDestaque = carros.slice(0, 3);
+    this.carroService.getCarros().subscribe(carros => {
+      this.carrosExibidos = carros.slice(0, 3);
     });
   }
 }

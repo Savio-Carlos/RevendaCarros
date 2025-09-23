@@ -10,8 +10,6 @@ export interface CarrosFilter {
   anoMax?: number;
   precoMin?: number;
   precoMax?: number;
-  combustivel?: string;
-  cambio?: string;
   kmsMax?: number;
 }
 
@@ -31,8 +29,6 @@ export class CarrosfilterComponent {
     anoMax: undefined,
     precoMin: undefined,
     precoMax: undefined,
-    combustivel: '',
-    cambio: '',
     kmsMax: undefined
   };
 

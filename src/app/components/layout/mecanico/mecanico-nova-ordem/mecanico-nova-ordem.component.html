@@ -24,13 +24,13 @@
                   <div class="input-group">
                   <select class="form-select" [(ngModel)]="veiculoSelecionado" [disabled]="!clienteSelecionado">
                     <option [ngValue]="undefined" disabled>-- Escolha um veículo --</option>
-                    <option *ngFor="let v of clienteSelecionado.veiculos" [ngValue]="v">{{ v.modelo }} ({{ v.marca }})</option>
+                    <option *ngFor="let v of clienteSelecionado.veiculos" [ngValue]="v">{{ v.modeloVeiculo }} ({{ v.marcaCarro }})</option>
                   </select>
                   <button class="btn btn-outline-secondary" type="button" (click)="abrirModalCadastroVeiculo()">Novo</button>
                 </div>
               <select class="form-select" [(ngModel)]="veiculoSelecionado" [disabled]="!clienteSelecionado">
                 <option [ngValue]="undefined" disabled>-- Escolha um veículo --</option>
-                <option *ngFor="let v of clienteSelecionado.veiculos" [ngValue]="v">{{ v.modelo }} ({{ v.marca }})</option>
+                <option *ngFor="let v of clienteSelecionado.veiculos" [ngValue]="v">{{ v.modeloVeiculo }} ({{ v.marcaCarro }})</option>
               </select>
             </div>
             <div class="col-md-12" *ngIf="veiculoSelecionado">
@@ -76,7 +76,7 @@
         <div class="card-body">
           <div *ngIf="clienteSelecionado && veiculoSelecionado" class="mb-3">
             <p class="mb-1"><strong>Cliente:</strong> {{ clienteSelecionado.nome }}</p>
-            <p class="mb-0"><strong>Veículo:</strong> {{ veiculoSelecionado.modelo }}</p>
+            <p class="mb-0"><strong>Veículo:</strong> {{ veiculoSelecionado.modeloVeiculo }}</p>
           </div>
           <hr>
           <h6>Serviços Adicionados:</h6>

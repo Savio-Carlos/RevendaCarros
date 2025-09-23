@@ -114,7 +114,7 @@ export class MecanicoNovaOrdemComponent implements OnInit {
       custoTotal: this.custoTotal,
       // ✅ PROPRIEDADES ADICIONADAS PARA CORRIGIR O ERRO
       clienteNome: this.clienteSelecionado.nome,
-      veiculoDescricao: `${this.veiculoSelecionado.modelo} (${this.veiculoSelecionado.marca})`
+      veiculoDescricao: `${this.veiculoSelecionado.modeloVeiculo} (${this.veiculoSelecionado.marcaCarro})`
     };
 
     this.ordemServicoService.criarOrdem(novaOrdem).subscribe(() => {
@@ -138,30 +138,30 @@ export class MecanicoNovaOrdemComponent implements OnInit {
     const modalRef = this.modalService.open(RegistrarVeiculoModalComponent);
     modalRef.result.then((veiculoData) => {
       if (veiculoData) {
-        // Cria um objeto VeiculoCliente completo com os dados do modal
-        const novoVeiculo: VeiculoCliente = {
-          id: Math.random(), // ID de exemplo
-          modelo: veiculoData.modelo,
-          marca: veiculoData.marca,
-          ano: veiculoData.ano,
-          placa: veiculoData.placa, // Propriedade nova, se quiser adicioná-la ao modelo
-          // Preenche o resto com valores padrão
-          preco: 0,
-          kms: 0,
-          combustivel: '',
-          cambio: '',
-          fotoUrl: 'assets/images/carro_placeholder.png', // Uma imagem genérica
+        // Cria um VeiculoCliente instanciando a classe para manter os métodos
+        const novoVeiculo: VeiculoCliente = Object.assign(new VeiculoCliente(), {
+          numChassi: (globalThis as any)?.crypto?.randomUUID?.() || Math.random().toString(36).slice(2),
+          placa: veiculoData.placa,
+          marcaCarro: veiculoData.marcaCarro,
+          modeloVeiculo: veiculoData.modeloVeiculo,
+          anoModelo: veiculoData.anoModelo,
+          quilometragem: 0,
+          cor: 'Indefinida',
+          precoVeiculo: 0,
+          descricao: '',
+          fotos: 'assets/images/carro_placeholder.png',
+          idStatusVeiculo: 1,
           dataCompra: new Date(),
           quilometragemAtual: 0,
           revisoes: []
-        };
+        });
 
         // Adiciona o novo veículo à lista do cliente (apenas na interface por enquanto)
         this.clienteSelecionado!.veiculos.push(novoVeiculo);
         // Seleciona automaticamente o veículo recém-cadastrado
         this.veiculoSelecionado = novoVeiculo;
         
-        alert(`Veículo ${novoVeiculo.modelo} cadastrado para ${this.clienteSelecionado!.nome} com sucesso!`);
+  alert(`Veículo ${novoVeiculo.modeloVeiculo} cadastrado para ${this.clienteSelecionado!.nome} com sucesso!`);
       }
     }).catch(() => {});
   }

@@ -76,38 +76,6 @@
       </div>
     </div>
 
-    <!-- Combustível -->
-    <div class="mb-3">
-      <label for="filtroCombustivel" class="form-label">Combustível</label>
-      <select
-        id="filtroCombustivel"
-        class="form-select"
-        [(ngModel)]="f.combustivel"
-        (ngModelChange)="emitir()"
-      >
-        <option value="">Todos</option>
-        <option value="Flex">Flex</option>
-        <option value="Gasolina">Gasolina</option>
-        <option value="Diesel">Diesel</option>
-        <!-- adicione outros tipos -->
-      </select>
-    </div>
-
-    <!-- Câmbio -->
-    <div class="mb-3">
-      <label for="filtroCambio" class="form-label">Câmbio</label>
-      <select
-        id="filtroCambio"
-        class="form-select"
-        [(ngModel)]="f.cambio"
-        (ngModelChange)="emitir()"
-      >
-        <option value="">Todos</option>
-        <option value="Manual">Manual</option>
-        <option value="Automático">Automático</option>
-      </select>
-    </div>
-
     <!-- Kms Máximos -->
     <div class="mb-3">
       <label for="filtroKmsMax" class="form-label">Kms (máx.)</label>

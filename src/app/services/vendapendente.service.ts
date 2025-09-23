@@ -19,7 +19,7 @@ export class VendaPendenteService {
     let mockCarros: any[] = [];
 
     this.gerenteService.getClientesCompletos().subscribe(c => mockClientes = c);
-    this.carroService.getAll().subscribe(c => mockCarros = c);
+    this.carroService.getCarros().subscribe(c => mockCarros = c);
 
     this.MOCK_VENDAS_PENDENTES = [
       { id: 1, cliente: mockClientes[0], carro: mockCarros[0], dataInicio: new Date('2025-07-08'), status: 'Aguardando Pagamento' },

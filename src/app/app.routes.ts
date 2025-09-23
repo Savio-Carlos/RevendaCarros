@@ -37,7 +37,7 @@ export const routes: Routes = [
     {path: "principal", component: PrincipalComponent, children: [
         {path: "", component: HomeComponent },
         {path: "carros", component: CarroslistComponent},
-        {path: "carros/:id", component: CarrosdetailsComponent},
+    {path: "carros/:chassi", component: CarrosdetailsComponent},
         {path: "pecas", component: PecaslistComponent},
         {path: "pecas/:id", component: PecasdetailsComponent},
         {path: "servicos", component: ServicoslistComponent},

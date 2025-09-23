@@ -24,7 +24,7 @@ export class VendedorcarrosComponent implements OnInit {
   }
 
   loadCarros(): void {
-    this.carroService.getAll().subscribe(data => {
+  this.carroService.getCarros().subscribe((data: Carro[]) => {
       this.carros = data;
     });
   }
@@ -33,21 +33,31 @@ export class VendedorcarrosComponent implements OnInit {
     const modalRef = this.modalService.open(CarromodalComponent);
     modalRef.componentInstance.carroToEdit = carro;
 
-    modalRef.result.then(result => {
+  modalRef.result.then((result: Carro) => {
       if (!result) return;
+      const isEdit = !!carro;
+      const op$ = isEdit
+    ? this.carroService.updateCarro(result.numChassi, result)
+    : this.carroService.createCarro(result);
 
-      if (carro && carro.id) {
-        this.carroService.update(result).subscribe(() => this.loadCarros());
-      } else {
-        this.carroService.add(result).subscribe(() => this.loadCarros());
-      }
+      op$.subscribe({
+        next: () => this.loadCarros(),
+        error: (err) => {
+          const msg = typeof err?.error === 'string' ? err.error : (err?.error?.message || err?.message || 'erro desconhecido');
+          alert('Falha ao salvar veículo: ' + msg);
+        },
+      });
     }).catch(() => {});
   }
 
   delete(carro: Carro): void {
-    if (confirm(`Tem certeza que deseja deletar o carro ${carro.modelo}?`)) {
-      this.carroService.delete(carro.id).subscribe(() => {
-        this.loadCarros();
+    if (confirm(`Tem certeza que deseja deletar o carro ${carro.modeloVeiculo}?`)) {
+      this.carroService.deleteCarro(carro.numChassi).subscribe({
+        next: () => this.loadCarros(),
+        error: (err) => {
+          const msg = typeof err?.error === 'string' ? err.error : (err?.error?.message || err?.message || 'erro desconhecido');
+          alert('Falha ao deletar veículo: ' + msg);
+        },
       });
     }
   }

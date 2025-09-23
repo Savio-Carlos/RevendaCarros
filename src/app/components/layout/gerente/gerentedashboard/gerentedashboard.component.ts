@@ -79,7 +79,7 @@ export class GerentedashboardComponent implements OnInit, AfterViewInit {
   }
     getItemName(venda: Venda): string {
     if (venda.tipo === 'Carro') {
-      return (venda.itemVendido as Carro).modelo;
+      return (venda.itemVendido as Carro).modeloVeiculo;
     } else {
       return (venda.itemVendido as Peca).nome;
     }

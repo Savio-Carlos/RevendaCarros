@@ -15,7 +15,7 @@
           <tbody>
             <tr *ngFor="let venda of vendasPendentes">
               <td>{{ venda.cliente.nome }}</td>
-              <td>{{ venda.carro.modelo }} ({{ venda.carro.marca }})</td>
+              <td>{{ venda.carro.modeloVeiculo }} ({{ venda.carro.marcaCarro }})</td>
               <td>{{ venda.dataInicio | date:'dd/MM/yyyy' }}</td>
               <td>
                 <span class="badge" [ngClass]="getStatusClass(venda.status)">

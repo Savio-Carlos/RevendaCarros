@@ -1,27 +1,44 @@
-import { Component, OnInit } from '@angular/core';
-import { CarrosfilterComponent, CarrosFilter } from '../carrosfilter/carrosfilter.component';
-import { CarroService } from '../../../services/carro.service';
+import { Component, OnInit, inject } from '@angular/core';
 import { Carro } from '../../../models/carro';
-import { CommonModule } from '@angular/common';    
-import { FormsModule } from '@angular/forms';                 
-import { RouterModule, RouterLink } from '@angular/router';         
+import { CarroService } from '../../../services/carro.service'; // IMPORTE O NOSSO SERVIÇO
+import { DecimalPipe } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { CarrosFilter, CarrosfilterComponent } from '../carrosfilter/carrosfilter.component';
+
 
 @Component({
-  imports: [FormsModule, CommonModule, RouterModule, CarrosfilterComponent, RouterLink],
-  selector: 'app-carros-list',
+  selector: 'app-carroslist',
   templateUrl: './carroslist.component.html',
+  styleUrls: ['./carroslist.component.css'],
+  imports: [DecimalPipe,CommonModule,RouterModule,CarrosfilterComponent]
 })
 export class CarroslistComponent implements OnInit {
+
   carros: Carro[] = [];
-  carrosFiltrados: Carro[] = [];
+  carroService = inject(CarroService); // INJETE O SERVIÇO
+  carrosFiltrados: any[] = [];
+  
+  constructor() { }
 
-  constructor(private carroService: CarroService) {}
+  ngOnInit(): void {
+    this.carregarCarros();
+  }
 
-  ngOnInit() {
-    this.carroService.getAll().subscribe(list => {
-      this.carros = list;
-      this.carrosFiltrados = [...this.carros];
-    });
+  carregarCarros() {
+    this.carroService.getCarros().subscribe({
+      next: (carrosDoBackend) => {
+  this.carros = carrosDoBackend;
+  // Inicializa a lista exibida com todos os carros carregados
+  this.carrosFiltrados = [...this.carros];
+  console.log('Carros carregados com sucesso!', this.carros);
+      },
+      error: (err) => {
+        console.error('Erro ao carregar carros', err);
+        alert('Não foi possível carregar a lista de carros.');
+      }
+    }); 
   }
 
   onFilterChange(f: CarrosFilter) {
@@ -30,47 +47,37 @@ export class CarroslistComponent implements OnInit {
 
       // Modelo (contém)
       if (f.modelo) {
-        ok = ok && c.modelo.toLowerCase().includes(f.modelo.toLowerCase());
+        ok = ok && c.modeloVeiculo.toLowerCase().includes(f.modelo.toLowerCase());
       }
 
       // Marca (contém)
       if (f.marca) {
-        ok = ok && c.marca.toLowerCase().includes(f.marca.toLowerCase());
+        ok = ok && c.marcaCarro.toLowerCase().includes(f.marca.toLowerCase());
       }
 
       // Ano mínimo
       if (f.anoMin != null) {
-        ok = ok && c.ano >= f.anoMin!;
+        ok = ok && c.anoModelo >= f.anoMin!;
       }
 
       // Ano máximo
       if (f.anoMax != null) {
-        ok = ok && c.ano <= f.anoMax!;
+        ok = ok && c.anoModelo <= f.anoMax!;
       }
 
       // Preço mínimo
       if (f.precoMin != null) {
-        ok = ok && c.preco >= f.precoMin!;
+        ok = ok && c.precoVeiculo >= f.precoMin!;
       }
 
       // Preço máximo
       if (f.precoMax != null) {
-        ok = ok && c.preco <= f.precoMax!;
-      }
-
-      // Combustível (igual)
-      if (f.combustivel) {
-        ok = ok && c.combustivel.toLowerCase() === f.combustivel.toLowerCase();
-      }
-
-      // Câmbio (igual)
-      if (f.cambio) {
-        ok = ok && c.cambio.toLowerCase() === f.cambio.toLowerCase();
+        ok = ok && c.precoVeiculo <= f.precoMax!;
       }
 
       // Kms máximos
       if (f.kmsMax != null) {
-        ok = ok && c.kms <= f.kmsMax!;
+        ok = ok && c.quilometragem <= f.kmsMax!;
       }
 
       return ok;

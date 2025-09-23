@@ -14,16 +14,16 @@ export class RegistrarVeiculoModalComponent {
 
   // Usamos um objeto parcial, pois não precisamos de todos os campos de um carro de venda
   novoVeiculo = {
-    modelo: '',
-    marca: '',
-    ano: new Date().getFullYear(),
+    modeloVeiculo: '',
+    marcaCarro: '',
+    anoModelo: new Date().getFullYear(),
     placa: '' // Campo importante para identificação na oficina
   };
 
   constructor(public activeModal: NgbActiveModal) {}
 
   salvar(): void {
-    if (!this.novoVeiculo.marca || !this.novoVeiculo.modelo || !this.novoVeiculo.placa) {
+  if (!this.novoVeiculo.marcaCarro || !this.novoVeiculo.modeloVeiculo || !this.novoVeiculo.placa) {
       alert('Por favor, preencha todos os campos.');
       return;
     }

@@ -5,11 +5,11 @@
     <div class="card shadow-sm mb-4" *ngFor="let veiculo of meusVeiculos">
       <div class="row g-0">
         <div class="col-md-4">
-          <img [src]="veiculo.fotoUrl" class="img-fluid rounded-start" [alt]="veiculo.modelo">
+          <img [src]="veiculo.fotos" class="img-fluid rounded-start" [alt]="veiculo.modeloVeiculo">
         </div>
         <div class="col-md-8">
           <div class="card-body">
-            <h3 class="card-title">{{ veiculo.modelo }} <span class="badge bg-primary">{{ veiculo.marca }}</span></h3>
+            <h3 class="card-title">{{ veiculo.modeloVeiculo }} <span class="badge bg-primary">{{ veiculo.marcaCarro }}</span></h3>
             <p class="card-text text-muted">
               Comprado em: {{ veiculo.dataCompra | date:'dd/MM/yyyy' }} <br>
               Quilometragem Atual: {{ veiculo.quilometragemAtual | number }} km

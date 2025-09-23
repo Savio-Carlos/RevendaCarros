@@ -10,9 +10,9 @@
       class="list-group-item list-group-item-action"
       *ngFor="let carro of carrosDisponiveis"
       (click)="selecionarCarro(carro)">
-      <strong>{{ carro.modelo }}</strong> ({{ carro.marca }}) - {{ carro.ano }}
+  <strong>{{ carro.modeloVeiculo }}</strong> ({{ carro.marcaCarro }}) - {{ carro.anoModelo }}
       <br>
-      <small class="text-muted">Preço: {{ carro.preco | currency:'BRL' }}</small>
+  <small class="text-muted">Preço: {{ carro.precoVeiculo | currency:'BRL' }}</small>
     </button>
   </div>
   <div *ngIf="carrosDisponiveis.length === 0" class="alert alert-warning mt-3">

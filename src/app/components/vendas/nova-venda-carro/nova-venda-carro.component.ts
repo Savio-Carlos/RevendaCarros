@@ -62,7 +62,7 @@ export class NovaVendaCarroComponent implements OnInit {
     // A lógica para registrar a venda no backend viria aqui.
     // Por enquanto, vamos apenas simular a associação.
     this.associacaoService.associarCarroAoCliente(this.clienteSelecionado.id, this.carroSelecionado).subscribe(() => {
-      alert(`Venda do ${this.carroSelecionado!.modelo} para ${this.clienteSelecionado!.nome} oficializada com sucesso!`);
+      alert(`Venda do ${this.carroSelecionado!.modeloVeiculo} para ${this.clienteSelecionado!.nome} oficializada com sucesso!`);
       
       // Limpa a tela para uma nova venda
       this.clienteSelecionado = undefined;

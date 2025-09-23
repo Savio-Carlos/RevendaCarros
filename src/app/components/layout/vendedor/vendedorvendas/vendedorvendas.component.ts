@@ -60,8 +60,7 @@ export class VendedorvendasComponent implements OnInit {
     getItemName(venda: Venda): string {
     // Check the 'tipo' property to decide which property to access
     if (venda.tipo === 'Carro') {
-      // We cast the item to 'Carro' so TypeScript knows 'modelo' is available
-      return (venda.itemVendido as Carro).modelo;
+      return (venda.itemVendido as Carro).modeloVeiculo;
     } else {
       // Otherwise, we cast to 'Peca' to access 'nome'
       return (venda.itemVendido as Peca).nome;

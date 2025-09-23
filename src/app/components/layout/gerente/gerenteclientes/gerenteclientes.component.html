@@ -43,8 +43,8 @@
               </div>
               <div *ngFor="let veiculo of cliente.veiculos">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h6>{{ veiculo.modelo }} ({{ veiculo.marca }})</h6>
-                    <button class="btn btn-sm btn-outline-danger" (click)="removerVeiculo(cliente, veiculo.id)">
+                    <h6>{{ veiculo.modeloVeiculo }} ({{ veiculo.marcaCarro }})</h6>
+                    <button class="btn btn-sm btn-outline-danger" (click)="removerVeiculo(cliente, veiculo.numChassi)">
                         <i class="fas fa-trash-alt"></i>
                     </button>
                 </div>
@@ -53,7 +53,7 @@
                 </div>
 
               <div *ngFor="let veiculo of cliente.veiculos">
-                <h6>{{ veiculo.modelo }} ({{ veiculo.marca }})</h6>
+                <h6>{{ veiculo.modeloVeiculo }} ({{ veiculo.marcaCarro }})</h6>
                 <table class="table table-sm table-bordered">
                   <thead><tr><th>Data</th><th>KM</th><th>Mecânico</th><th>Custo Total</th></tr></thead>
                   <tbody>

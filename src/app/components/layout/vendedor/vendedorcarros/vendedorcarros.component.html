@@ -22,11 +22,11 @@
           </thead>
           <tbody>
             <tr *ngFor="let carro of carros">
-              <td><img [src]="carro.fotoUrl" [alt]="carro.modelo" width="100" class="img-thumbnail"></td>
-              <td>{{ carro.modelo }}</td>
-              <td>{{ carro.marca }}</td>
-              <td>{{ carro.ano }}</td>
-              <td>{{ carro.preco | currency:'BRL' }}</td>
+              <td><img [src]="carro.fotos" [alt]="carro.modeloVeiculo" width="100" class="img-thumbnail"></td>
+              <td>{{ carro.modeloVeiculo }}</td>
+              <td>{{ carro.marcaCarro }}</td>
+              <td>{{ carro.anoModelo }}</td>
+              <td>{{ carro.precoVeiculo | currency:'BRL' }}</td>
               <td class="text-end">
                 <button class="btn btn-sm btn-outline-primary me-2" (click)="openModal(carro)">
                   <i class="fas fa-edit"></i> Editar

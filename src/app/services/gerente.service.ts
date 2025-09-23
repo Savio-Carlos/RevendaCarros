@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs';
 import { Cliente } from '../models/cliente';
 import { Vendedor } from '../models/vendedor';
 import { VendaService } from './venda.service';
+import { VeiculoCliente } from '../models/veiculocliente';
 
 @Injectable({
   providedIn: 'root'
@@ -19,11 +20,21 @@ export class GerenteService {
       contato: '(45) 99999-8888',
       endereco: { cep: '85851-000', logradouro: 'Av. Brasil', numero: '123', bairro: 'Centro', localidade: 'Foz do Iguaçu', uf: 'PR' },
       veiculos: [
-        {
-          id: 3, modelo: 'Compass Longitude', placa: 'GHI-9012', marca: 'Jeep', ano: 2024, preco: 140000, kms: 18500, combustivel: 'Diesel', cambio: 'Automático', fotoUrl: 'assets/images/compass.webp',
-          dataCompra: new Date('2024-01-15'), quilometragemAtual: 28300,
+        Object.assign(new VeiculoCliente(), {
+          numChassi: '9BWZZZ377VT004251',
+          placa: 'GHI-9012',
+          marcaCarro: 'Jeep',
+          modeloVeiculo: 'Compass Longitude',
+          anoModelo: 2024,
+          quilometragem: 18500,
+          cor: 'Cinza',
+          precoVeiculo: 140000,
+          descricao: '',
+          fotos: 'assets/images/compass.webp',
+          idStatusVeiculo: 1,
+          dataCompra: new Date('2024-01-15'),
+          quilometragemAtual: 28300,
           revisoes: [
-            // ✅ OBJETO DE REVISÃO CORRIGIDO
             { 
               id: 1, 
               data: new Date('2024-07-20'), 
@@ -36,7 +47,6 @@ export class GerenteService {
               clienteNome: 'Carlos Eduardo',
               veiculoDescricao: 'Compass Longitude (Jeep)'
             },
-            // ✅ OBJETO DE REVISÃO CORRIGIDO
             { 
               id: 2, 
               data: new Date('2025-02-10'), 
@@ -50,7 +60,7 @@ export class GerenteService {
               veiculoDescricao: 'Compass Longitude (Jeep)'
             }
           ]
-        }
+        })
       ],
       comprasPecas: [
         { id: 1, dataCompra: new Date('2025-05-10'), itens: [{ id: 3, nome: 'Vela de Ignição Iridium', preco: 65.00 } as any], valorTotal: 65.00 }
@@ -65,11 +75,21 @@ export class GerenteService {
       contato: '(45) 98888-7777',
       endereco: { cep: '85852-000', logradouro: 'Rua das Flores', numero: '456', bairro: 'Jardim das Laranjeiras', localidade: 'Foz do Iguaçu', uf: 'PR' },
       veiculos: [
-        {
-          id: 2, modelo: 'Onix Plus Turbo', placa: 'ASI-1231', marca: 'Chevrolet', ano: 2023, preco: 96000, kms: 5000, combustivel: 'Flex', cambio: 'Automático', fotoUrl: 'assets/images/onix.webp',
-          dataCompra: new Date('2023-11-20'), quilometragemAtual: 10500,
+        Object.assign(new VeiculoCliente(), {
+          numChassi: '9BGASD12345XYZ678',
+          placa: 'ASI-1231',
+          marcaCarro: 'Chevrolet',
+          modeloVeiculo: 'Onix Plus Turbo',
+          anoModelo: 2023,
+          quilometragem: 5000,
+          cor: 'Branco',
+          precoVeiculo: 96000,
+          descricao: '',
+          fotos: 'assets/images/onix.webp',
+          idStatusVeiculo: 1,
+          dataCompra: new Date('2023-11-20'),
+          quilometragemAtual: 10500,
           revisoes: [
-            // ✅ OBJETO DE REVISÃO CORRIGIDO
             { 
               id: 3, 
               data: new Date('2024-09-15'), 
@@ -83,7 +103,7 @@ export class GerenteService {
               veiculoDescricao: 'Onix Plus Turbo (Chevrolet)'
             }
           ]
-        }
+        })
       ],
       comprasPecas: []
     }

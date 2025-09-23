@@ -1,12 +1,13 @@
-export class Carro {
-    id!: number;
-    modelo!: string;
-    marca!: string;
-    ano!: number;
-    preco!: number;
-    combustivel!: string;
-    cambio!: string;
-    kms!: number;
-    fotoUrl!: string;
-    placa!: string;
+export interface Carro {
+  numChassi: string;
+  placa: string;
+  marcaCarro: string;
+  modeloVeiculo: string;
+  anoModelo: number;
+  quilometragem: number;
+  cor: string;
+  precoVeiculo: number;
+  descricao: string;
+  fotos: string;
+  idStatusVeiculo: number;
 }
