@@ -40,7 +40,8 @@ export const routes: Routes = [
     {path: "carros/:chassi", component: CarrosdetailsComponent},
         {path: "pecas", component: PecaslistComponent},
         {path: "pecas/:id", component: PecasdetailsComponent},
-        {path: "servicos", component: ServicoslistComponent},
+    {path: "servicos", component: ServicoslistComponent},
+    {path: "assistente", loadComponent: () => import('./components/ai/assistente/assistente.component').then(m => m.AssistenteComponent) },
         {path: "servicos/:id", component: ServicosdetailsComponent},
         {path: "carrinho", component: CarrinhoComponent}
     ]},

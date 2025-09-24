@@ -68,4 +68,9 @@ export class VendaService {
   criarVenda(payload: CriarVendaPayload): Observable<VendaBackend> {
     return this.http.post<VendaBackend>(this.apiUrl, payload);
   }
+
+  // Consulta venda por ID (usa formato retornado pelo backend, sem map)
+  getVendaById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  }
 }

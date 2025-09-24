@@ -10,6 +10,7 @@ import { CarromodalComponent } from '../../../carros/carromodal/carromodal.compo
   standalone: true,
   imports: [CommonModule],
   templateUrl: './vendedorcarros.component.html',
+  styleUrls: ['./vendedorcarros.component.scss']
 })
 export class VendedorcarrosComponent implements OnInit {
   carros: Carro[] = [];
@@ -25,8 +26,8 @@ export class VendedorcarrosComponent implements OnInit {
 
   loadCarros(): void {
     this.carroService.getCarros().subscribe((data: Carro[]) => {
-      // Mostra apenas disponíveis por padrão (status = 1).
-      this.carros = (data || []).filter(c => c.idStatusVeiculo === 1);
+  // Mostra todos (disponíveis e vendidos) para o vendedor.
+  this.carros = (data || []);
     });
   }
 

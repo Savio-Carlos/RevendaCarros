@@ -22,8 +22,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let carro of carros">
-              <td><img [src]="carro.fotos" [alt]="carro.modeloVeiculo" width="100" class="img-thumbnail"></td>
+            <tr *ngFor="let carro of carros" [class.table-light]="carro.idStatusVeiculo !== 1" [class.opacity-75]="carro.idStatusVeiculo !== 1">
+              <td class="position-relative">
+                <img [src]="carro.fotos" [alt]="carro.modeloVeiculo" width="100" class="img-thumbnail">
+                <span *ngIf="carro.idStatusVeiculo !== 1" class="vendido-ribbon">Vendido</span>
+              </td>
               <td>{{ carro.modeloVeiculo }}</td>
               <td>{{ carro.marcaCarro }}</td>
               <td>{{ carro.anoModelo }}</td>
