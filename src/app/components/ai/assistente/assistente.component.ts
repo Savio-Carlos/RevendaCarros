@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NluService } from '../../../services/nlu.service';
-import { NluProxyService } from '../../../services/nlu-proxy.service';
-import { USE_REMOTE_NLU } from '../../../services/ai-provider.config';
+import { AzureProxyService } from '../../../services/azure-proxy.service';
+import { USE_REMOTE_AZURE } from '../../../services/ai-provider.config';
 import { CarroService } from '../../../services/carro.service';
 import { ClienteService } from '../../../services/cliente.service';
 import { VendaService } from '../../../services/venda.service';
@@ -38,6 +37,7 @@ export class AssistenteComponent {
   pensando = false;
   private readonly KNOWN_INTENTS = new Set([
     'ajuda',
+  'help',
     'listar_carros_disponiveis',
     'listar_veiculos_disponiveis',
     'listar_carros',
@@ -54,8 +54,7 @@ export class AssistenteComponent {
   ]);
 
   constructor(
-    private nlu: NluService,
-    private nluProxy: NluProxyService,
+    private nluProxy: AzureProxyService,
     private carros: CarroService,
     private clientes: ClienteService,
     private vendas: VendaService,
@@ -68,12 +67,32 @@ export class AssistenteComponent {
     this.pensando = true;
     this.resposta = '';
 
-    // Save user message in local history
-    this._pushMsg('user', entrada);
+  this._pushMsg('user', entrada);
 
   const handle = (intent: string, entities: any) => {
+      // Normalização de intents retornadas pela Azure
+      if (intent === 'help') intent = 'ajuda';
+      if (intent === 'list_cars_by_brand' || intent === 'list_cars' || intent === 'list_vehicles') {
+        intent = 'listar_carros_disponiveis';
+      }
+      if (intent === 'ver_detalhes_chassi' || intent === 'car_details' || intent === 'vehicle_details') {
+        intent = 'detalhes_carro';
+      }
+      if (intent === 'get_customer_details' || intent === 'customer_details' || intent === 'customer_info') {
+        intent = 'consultar_cliente_por_id';
+      }
+      // Normalização de entidades
+      if (entities) {
+        if (entities.brand && !entities.marca) entities.marca = entities.brand;
+        if (entities.model && !entities.modelo) entities.modelo = entities.model;
+        if (entities.vin && !entities.chassi && !entities.numChassiVeiculo) entities.chassi = entities.vin;
+        if ((entities.customer_id || entities.customerId) && !entities.idCliente) {
+          entities.idCliente = entities.customer_id || entities.customerId;
+        }
+      }
       switch (intent) {
         case 'ajuda':
+        case 'help':
           this._renderAjuda();
           break;
     case 'listar_carros_disponiveis':
@@ -111,41 +130,18 @@ export class AssistenteComponent {
       }
     };
 
-    if (USE_REMOTE_NLU) {
-      this.nluProxy.interpret(entrada).subscribe({
-        next: (res) => {
-          // Sempre calculamos a interpretação local para comparativo
-          const nLocal = this.nlu.interpret(entrada);
-          const isRemoteUnknown = !res?.intent || res.intent === 'desconhecido' || res.intent === 'fallback' || !this.KNOWN_INTENTS.has(res.intent);
-          // Heurística: se o usuário falou em vender/venda e o local entendeu como 'criar_venda', preferir o local
-          const textoLower = entrada.toLowerCase();
-          const isSaleUtterance = /\bvender\b|\bvenda\b/.test(textoLower);
-          const preferLocal = isRemoteUnknown || (isSaleUtterance && nLocal.intent === 'criar_venda' && res.intent !== 'criar_venda');
-
-          if (preferLocal && nLocal.intent !== 'desconhecido') {
-            if (isRemoteUnknown) this._pushMsg('bot', 'Interpretei localmente para te ajudar.');
-            this.pensando = false;
-            handle(nLocal.intent, nLocal.entities);
-            return;
-          }
-
-          this.pensando = false;
-          handle(res.intent, res.entities);
-        },
-        error: (err) => {
-          // Fallback para NLU local se backend estiver indisponível
-          console.error('[NLU remoto] falhou, usando NLU local.', err);
-          const n = this.nlu.interpret(entrada);
-          this.pensando = false;
-          handle(n.intent, n.entities);
-          this._pushMsg('bot', 'NLU remoto indisponível, usei interpretação local.');
-        }
-      });
-    } else {
-      const n = this.nlu.interpret(entrada);
-      this.pensando = false;
-      handle(n.intent, n.entities);
-    }
+    this.nluProxy.interpret(entrada).subscribe({
+      next: (res) => {
+        this.pensando = false;
+        handle(res.intent, res.entities);
+      },
+      error: (err) => {
+        const msg = typeof err?.error === 'string' ? err.error : (err?.error?.message || err?.message || '');
+        this.resposta = msg;
+        this.pensando = false;
+        this._pushMsg('bot', this.resposta);
+      }
+    });
   }
 
   private _renderAjuda() {
@@ -161,8 +157,7 @@ export class AssistenteComponent {
 
   private _renderDesconhecido() {
     this.pensando = false;
-    this.resposta = 'Não entendi. Tente: "listar carros disponíveis" ou "detalhes do carro chassi XYZ"';
-  this._pushMsg('bot', this.resposta);
+  this.resposta = '';
   }
 
   private _listarCarros({ marca, modelo }: any) {
@@ -172,7 +167,7 @@ export class AssistenteComponent {
         if (marca) disponiveis = disponiveis.filter(c => c.marcaCarro.toLowerCase().includes(String(marca).toLowerCase()));
         if (modelo) disponiveis = disponiveis.filter(c => c.modeloVeiculo.toLowerCase().includes(String(modelo).toLowerCase()));
         if (!disponiveis.length) {
-          this.resposta = 'Não encontrei carros disponíveis com esses critérios.';
+          this.resposta = 'Nenhum carro disponível para os critérios informados.';
         } else {
           const html = disponiveis.slice(0, 5).map(c => `
             <div><strong>${c.marcaCarro} ${c.modeloVeiculo}</strong> — Ano ${c.anoModelo}, R$ ${c.precoVeiculo.toLocaleString('pt-BR')}</div>
@@ -183,7 +178,8 @@ export class AssistenteComponent {
   this._pushMsg('bot', this._stripHtml(this.resposta));
       },
       error: err => {
-        this.resposta = 'Erro ao consultar carros.';
+        const msg = typeof err?.error === 'string' ? err.error : (err?.error?.message || err?.message || '');
+        this.resposta = msg;
         this.pensando = false;
   this._pushMsg('bot', this.resposta);
       }
@@ -191,19 +187,15 @@ export class AssistenteComponent {
   }
 
   private _detalhesCarro({ chassi, modelo }: any) {
-    if (!chassi) {
-      this.pensando = false;
-      this.resposta = 'Informe o chassi do carro para ver detalhes.';
-      return;
-    }
+    if (!chassi) { this.pensando = false; return; }
     this.carros.getCarroByChassi(chassi).subscribe({
       next: c => {
-        if (!c) { this.resposta = 'Carro não encontrado.'; this.pensando = false; return; }
+        if (!c) { this.resposta = ''; this.pensando = false; return; }
         this.resposta = `O carro solicitado é o ${c.marcaCarro} ${c.modeloVeiculo}, ano ${c.anoModelo}, preço R$ ${c.precoVeiculo.toLocaleString('pt-BR')}.`;
         this.pensando = false;
         this._pushMsg('bot', this._stripHtml(this.resposta));
       },
-      error: () => { this.resposta = 'Erro ao buscar detalhes do carro.'; this.pensando = false; this._pushMsg('bot', this.resposta); }
+      error: (err) => { const msg = typeof err?.error === 'string' ? err.error : (err?.error?.message || err?.message || ''); this.resposta = msg; this.pensando = false; this._pushMsg('bot', this.resposta); }
     });
   }
 
@@ -216,31 +208,24 @@ export class AssistenteComponent {
         this.pensando = false;
         this._pushMsg('bot', this._stripHtml(this.resposta));
       },
-      error: () => { this.resposta = 'Erro ao consultar clientes.'; this.pensando = false; this._pushMsg('bot', this.resposta); }
+      error: (err) => { const msg = typeof err?.error === 'string' ? err.error : (err?.error?.message || err?.message || ''); this.resposta = msg; this.pensando = false; this._pushMsg('bot', this.resposta); }
     });
   }
 
   private _detalhesCliente({ idCliente, nome }: any) {
-    if (!idCliente) {
-      this.pensando = false;
-      this.resposta = 'Informe o ID do cliente.';
-      return;
-    }
-    // Não há endpoint de detalhes isolado no frontend; reusa getClientes e filtra
     this.clientes.getClientes().subscribe({
       next: (lista: any[]) => {
         const c = (lista || []).find(x => (x.id || x.idCliente || x.pessoa?.idPessoa) == idCliente);
-        if (!c) this.resposta = 'Cliente não encontrado.';
+        if (!c) this.resposta = '';
         else this.resposta = `Cliente ${c.pessoa?.nome || c.nome} (ID ${idCliente}).`;
         this.pensando = false;
         this._pushMsg('bot', this._stripHtml(this.resposta));
       },
-      error: () => { this.resposta = 'Erro ao buscar cliente.'; this.pensando = false; this._pushMsg('bot', this.resposta); }
+      error: (err) => { const msg = typeof err?.error === 'string' ? err.error : (err?.error?.message || err?.message || ''); this.resposta = msg; this.pensando = false; this._pushMsg('bot', this.resposta); }
     });
   }
 
   private _iniciarVenda(entities: any) {
-    // Normaliza aliases de entidades vindas do NLU (remoto ou local)
     const chassi = (entities?.numChassiVeiculo || entities?.chassi || entities?.numeroChassi || entities?.numChassi || entities?.vin || '').toString().toUpperCase();
     const idCliente = Number(entities?.idCliente ?? entities?.cliente ?? entities?.idPessoaCliente);
     const idFuncionario = Number(entities?.idFuncionario ?? entities?.funcionario ?? entities?.vendedor);
@@ -251,46 +236,42 @@ export class AssistenteComponent {
       this.resposta = 'Para iniciar uma venda, informe chassi e ID do cliente.';
       return;
     }
-    // Busca preço do carro e executa venda usando serviços existentes
     this.carros.getCarroByChassi(chassi).subscribe({
       next: carro => {
-        if (!carro) { this.resposta = 'Carro não encontrado.'; this.pensando = false; return; }
+        if (!carro) {  }
         const payload = {
           idCliente: Number(idCliente),
           idFuncionario: Number(idFuncionario) || undefined,
-          numChassiVeiculo: carro.numChassi,
-          precoVendaVeiculo: Number.isFinite(precoInformado) && precoInformado > 0 ? precoInformado : carro.precoVeiculo,
+          numChassiVeiculo: (carro?.numChassi || chassi),
+          precoVendaVeiculo: Number.isFinite(precoInformado) && precoInformado > 0 ? precoInformado : (carro?.precoVeiculo || 0),
           formaPagamento: 'À vista'
         } as any;
         if (!payload.idFuncionario) {
-          // tenta escolher primeiro vendedor válido automaticamente
+          // tenta escolher primeiro vendedor válido automaticamente; se falhar, envia assim para backend validar
           this.funcionarios.getFuncionarios().subscribe({
             next: funcs => {
               const f = (funcs || [])[0];
-              if (!f) { this.resposta = 'Nenhum vendedor disponível para a venda.'; this.pensando = false; return; }
-              payload.idFuncionario = f.idFuncionario;
+              if (f) payload.idFuncionario = f.idFuncionario;
               this._postVenda(payload);
             },
-            error: () => { this.resposta = 'Erro ao obter vendedor.'; this.pensando = false; }
+            error: () => { this._postVenda(payload); }
           });
-        } else {
-          this._postVenda(payload);
-        }
+        } else { this._postVenda(payload); }
       },
-      error: () => { this.resposta = 'Erro ao consultar carro para venda.'; this.pensando = false; }
+      error: () => { this._postVenda({ idCliente, idFuncionario, numChassiVeiculo: chassi, precoVendaVeiculo: Number.isFinite(precoInformado) ? precoInformado : 0, formaPagamento: 'À vista' }); }
     });
   }
 
   private _postVenda(payload: any) {
     this.vendas.criarVenda(payload).subscribe({
       next: (res: any) => {
-        this.resposta = `Venda criada (ID ${res.idVenda}). Veículo marcado como vendido.`;
+        this.resposta = `Venda criada (ID ${res.idVenda}).`;
         this.pensando = false;
         this._pushMsg('bot', this._stripHtml(this.resposta));
       },
       error: (err) => {
-        const msg = typeof err?.error === 'string' ? err.error : (err?.error?.message || err?.message || 'erro desconhecido');
-        this.resposta = 'Falha ao concluir venda: ' + msg;
+        const msg = typeof err?.error === 'string' ? err.error : (err?.error?.message || err?.message || '');
+        this.resposta = msg;
         this.pensando = false;
         this._pushMsg('bot', this.resposta);
       }
@@ -299,16 +280,16 @@ export class AssistenteComponent {
 
   private _consultarVendaPorId({ idVenda }: any) {
     const id = Number(idVenda);
-    if (!Number.isFinite(id) || id <= 0) { this.pensando = false; this.resposta = 'Informe um ID de venda válido.'; this._pushMsg('bot', this.resposta); return; }
-    this.vendas.getVendaById(id).subscribe({
+    const efetivo = Number.isFinite(id) && id > 0 ? id : 0;
+    this.vendas.getVendaById(efetivo).subscribe({
       next: (v: any) => {
-        if (!v) { this.resposta = 'Venda não encontrada.'; }
+        if (!v) { this.resposta = ''; }
         else {
           this.resposta = `Venda ${v.idVenda} em ${v.dataVenda}, chassi ${v.numChassiVeiculo}, cliente ${v.idCliente}, vendedor ${v.idFuncionario}, valor R$ ${Number(v.precoVendaVeiculo).toLocaleString('pt-BR')}.`;
         }
         this.pensando = false; this._pushMsg('bot', this._stripHtml(this.resposta));
       },
-      error: () => { this.resposta = 'Erro ao consultar venda.'; this.pensando = false; this._pushMsg('bot', this.resposta); }
+      error: (err) => { const msg = typeof err?.error === 'string' ? err.error : (err?.error?.message || err?.message || ''); this.resposta = msg; this.pensando = false; this._pushMsg('bot', this.resposta); }
     });
   }
 
@@ -325,7 +306,7 @@ export class AssistenteComponent {
         }
         this.pensando = false; this._pushMsg('bot', this._stripHtml(this.resposta));
       },
-      error: () => { this.resposta = 'Erro ao listar vendas.'; this.pensando = false; this._pushMsg('bot', this.resposta); }
+  error: (err) => { const msg = typeof err?.error === 'string' ? err.error : (err?.error?.message || err?.message || ''); this.resposta = msg; this.pensando = false; this._pushMsg('bot', this.resposta); }
     });
   }
 
@@ -336,11 +317,10 @@ export class AssistenteComponent {
         else this.resposta = 'Funcionários:<br/>' + fs.map(f => `${f.idFuncionario} — ${f.nome}`).join('<br/>');
         this.pensando = false; this._pushMsg('bot', this.resposta);
       },
-      error: () => { this.resposta = 'Erro ao consultar funcionários.'; this.pensando = false; this._pushMsg('bot', this.resposta); }
+  error: (err) => { const msg = typeof err?.error === 'string' ? err.error : (err?.error?.message || err?.message || ''); this.resposta = msg; this.pensando = false; this._pushMsg('bot', this.resposta); }
     });
   }
 
-  // Histórico simples em localStorage
   private _pushMsg(author: 'user'|'bot', text: string) {
     const entry = { author, text, time: new Date().toISOString() };
     const key = 'assistente_chat';

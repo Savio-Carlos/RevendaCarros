@@ -45,8 +45,8 @@ export class VendedorcarrosComponent implements OnInit {
       op$.subscribe({
         next: () => this.loadCarros(),
         error: (err) => {
-          const msg = typeof err?.error === 'string' ? err.error : (err?.error?.message || err?.message || 'erro desconhecido');
-          alert('Falha ao salvar veículo: ' + msg);
+          const msg = typeof err?.error === 'string' ? err.error : (err?.error?.message || err?.message || '');
+          if (msg) alert(msg);
         },
       });
     }).catch(() => {});
@@ -57,8 +57,8 @@ export class VendedorcarrosComponent implements OnInit {
       this.carroService.deleteCarro(carro.numChassi).subscribe({
         next: () => this.loadCarros(),
         error: (err) => {
-          const msg = typeof err?.error === 'string' ? err.error : (err?.error?.message || err?.message || 'erro desconhecido');
-          alert('Falha ao deletar veículo: ' + msg);
+          const msg = typeof err?.error === 'string' ? err.error : (err?.error?.message || err?.message || '');
+          if (msg) alert(msg);
         },
       });
     }
