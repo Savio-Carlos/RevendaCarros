@@ -29,9 +29,9 @@ export class CarroslistComponent implements OnInit {
   carregarCarros() {
     this.carroService.getCarros().subscribe({
       next: (carrosDoBackend) => {
-  this.carros = carrosDoBackend;
-  // Inicializa a lista exibida com todos os carros carregados
-  this.carrosFiltrados = [...this.carros];
+  this.carros = carrosDoBackend || [];
+  // Inicializa exibindo apenas veículos disponíveis (status = 1)
+  this.carrosFiltrados = this.carros.filter(c => c.idStatusVeiculo === 1);
   console.log('Carros carregados com sucesso!', this.carros);
       },
       error: (err) => {
@@ -43,7 +43,8 @@ export class CarroslistComponent implements OnInit {
 
   onFilterChange(f: CarrosFilter) {
     this.carrosFiltrados = this.carros.filter(c => {
-      let ok = true;
+      // Sempre ocultar vendidos (status != 1)
+      let ok = c.idStatusVeiculo === 1;
 
       // Modelo (contém)
       if (f.modelo) {

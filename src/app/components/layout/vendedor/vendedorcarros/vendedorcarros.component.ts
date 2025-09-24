@@ -24,8 +24,9 @@ export class VendedorcarrosComponent implements OnInit {
   }
 
   loadCarros(): void {
-  this.carroService.getCarros().subscribe((data: Carro[]) => {
-      this.carros = data;
+    this.carroService.getCarros().subscribe((data: Carro[]) => {
+      // Mostra apenas disponíveis por padrão (status = 1).
+      this.carros = (data || []).filter(c => c.idStatusVeiculo === 1);
     });
   }
 
@@ -61,4 +62,5 @@ export class VendedorcarrosComponent implements OnInit {
       });
     }
   }
+
 }

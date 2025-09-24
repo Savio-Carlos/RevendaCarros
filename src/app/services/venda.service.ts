@@ -1,23 +1,71 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
 import { Venda } from '../models/venda';
 
-const MOCK_VENDAS: Venda[] = [
-  { id: 1, dataVenda: new Date('2025-06-15'), tipo: 'Carro', itemVendido: { numChassi: 'HB20-001', modeloVeiculo: 'HB20 Sense', marcaCarro: 'Hyundai' } as any, valorFinal: 75000, vendedor: 'Vendedor' },
-  { id: 2, dataVenda: new Date('2025-06-22'), tipo: 'Peça', itemVendido: { id: 101, nome: 'Filtro de Óleo' } as any, valorFinal: 85, vendedor: 'Vendedor' },
-  { id: 3, dataVenda: new Date('2025-07-01'), tipo: 'Carro', itemVendido: { numChassi: 'ONIX-002', modeloVeiculo: 'Onix Plus Turbo', marcaCarro: 'Chevrolet' } as any, valorFinal: 96000, vendedor: 'Vendedor' },
-  { id: 4, dataVenda: new Date('2025-07-05'), tipo: 'Peça', itemVendido: { id: 102, nome: 'Pastilha de Freio' } as any, valorFinal: 250, vendedor: 'Vendedor' },
-  { id: 5, dataVenda: new Date('2025-07-08'), tipo: 'Carro', itemVendido: { id: 4, modelo: 'Mobi Like', marca: 'Fiat' } as any, valorFinal: 72000, vendedor: 'Vendedor' },
-];
+// Formato retornado por GET /api/vendas (resumo enriquecido)
+interface VendaResumoBackend {
+  idVenda: number;
+  dataVenda: string; // yyyy-MM-dd
+  precoVendaVeiculo: number;
+  formaPagamento?: string;
+  idCliente: number;
+  clienteNome: string;
+  idFuncionario: number;
+  funcionarioNome: string;
+  numChassiVeiculo: string;
+  veiculoModelo: string;
+  placa: string;
+  marcaCarro: string;
+}
 
-@Injectable({
-  providedIn: 'root'
-})
+// Payload esperado por POST /api/vendas
+export interface CriarVendaPayload {
+  idCliente: number;
+  idFuncionario: number;
+  numChassiVeiculo: string;
+  precoVendaVeiculo: number;
+  formaPagamento?: string;
+}
+
+// Resposta de POST /api/vendas (objeto Venda simples do backend)
+export interface VendaBackend {
+  idVenda: number;
+  dataVenda: string; // yyyy-MM-dd
+  precoVendaVeiculo: number;
+  formaPagamento?: string;
+  idCliente: number;
+  idFuncionario: number;
+  numChassiVeiculo: string;
+}
+
+@Injectable({ providedIn: 'root' })
 export class VendaService {
+  private apiUrl = 'http://localhost:8080/api/vendas';
 
-  constructor() { }
+  constructor(private http: HttpClient) {}
 
+  // Lista vendas (resumo) e adapta para o modelo de UI existente
   getVendas(): Observable<Venda[]> {
-    return of(MOCK_VENDAS);
+    return this.http.get<VendaResumoBackend[]>(this.apiUrl).pipe(
+      map(list => list.map(v => ({
+        id: v.idVenda,
+        dataVenda: new Date(v.dataVenda),
+        tipo: 'Carro' as const,
+        itemVendido: {
+          numChassi: v.numChassiVeiculo,
+          modeloVeiculo: v.veiculoModelo,
+          marcaCarro: v.marcaCarro,
+          placa: v.placa
+        } as any,
+        valorFinal: v.precoVendaVeiculo,
+        vendedor: v.funcionarioNome
+      })))
+    );
+  }
+
+  // Cria uma venda
+  criarVenda(payload: CriarVendaPayload): Observable<VendaBackend> {
+    return this.http.post<VendaBackend>(this.apiUrl, payload);
   }
 }

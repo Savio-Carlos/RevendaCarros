@@ -28,6 +28,14 @@ export class RegistromodalComponent {
   // Guarda dados retornados do ViaCEP para enviar como metadados no auto-seed
   private viaCepMeta: Partial<import('../../../services/viacep.service').ViaCepResponse> | null = null;
 
+  // Mapa simples de sigla -> nome completo da UF para enriquecer o auto-seed
+  private readonly UF_NOMES: Record<string, string> = {
+    AC: 'Acre', AL: 'Alagoas', AM: 'Amazonas', AP: 'Amapá', BA: 'Bahia', CE: 'Ceará', DF: 'Distrito Federal',
+    ES: 'Espírito Santo', GO: 'Goiás', MA: 'Maranhão', MG: 'Minas Gerais', MS: 'Mato Grosso do Sul', MT: 'Mato Grosso',
+    PA: 'Pará', PB: 'Paraíba', PE: 'Pernambuco', PI: 'Piauí', PR: 'Paraná', RJ: 'Rio de Janeiro', RN: 'Rio Grande do Norte',
+    RO: 'Rondônia', RR: 'Roraima', RS: 'Rio Grande do Sul', SC: 'Santa Catarina', SE: 'Sergipe', SP: 'São Paulo', TO: 'Tocantins'
+  };
+
   private sanitizeDigits(value: string | undefined | null): string {
     return (value || '').replace(/\D/g, '');
   }
@@ -90,11 +98,12 @@ export class RegistromodalComponent {
 
     const tryCreateEndereco = () => {
       if (cepDigits.length === 8 && numeroEndereco) {
+        const complemento = (this.newUser.complemento ?? '').toString().trim();
         const endPayload: any = {
           logradouroCEP: cepDigits,
           numeroEndereco: numeroEndereco,
-          complementoEndereco: this.newUser.complemento || null
-          // referencia, idBairro, idCidade podem ser enviados no futuro
+          complementoEndereco: complemento.length > 0 ? complemento : null
+          // referencia pode ser adicionada futuramente
         };
         // Deriva sigla do logradouro (Rua -> R, Avenida -> Av, Travessa -> Tv, Rodovia -> Rod, Alameda -> Al, Praça -> Pc)
         const deriveSiglaLog = (logradouro?: string): string | undefined => {
@@ -112,12 +121,15 @@ export class RegistromodalComponent {
 
         const meta = this.viaCepMeta ? {
           uf: this.viaCepMeta.uf,
-          nomeUF: this.viaCepMeta.uf, // sem nome completo na ViaCEP; backend aceitará igual à sigla
+          nomeUF: this.UF_NOMES[(this.viaCepMeta.uf || '').toUpperCase()] || this.viaCepMeta.uf,
           cidade: this.viaCepMeta.localidade,
           bairro: this.viaCepMeta.bairro,
           logradouro: this.viaCepMeta.logradouro,
           siglaLog: deriveSiglaLog(this.viaCepMeta.logradouro)
         } : undefined;
+
+        // Debug para investigar 500 e checar campos enviados
+        console.debug('[Endereco] POST body:', endPayload, 'meta:', meta);
 
         return this.enderecoService.createEndereco(endPayload, meta);
       }

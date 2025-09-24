@@ -17,6 +17,7 @@
               <th>Marca</th>
               <th>Ano</th>
               <th>Preço</th>
+              <th>Status</th>
               <th class="text-end">Ações</th>
             </tr>
           </thead>
@@ -27,6 +28,11 @@
               <td>{{ carro.marcaCarro }}</td>
               <td>{{ carro.anoModelo }}</td>
               <td>{{ carro.precoVeiculo | currency:'BRL' }}</td>
+              <td>
+                <span class="badge" [ngClass]="carro.idStatusVeiculo === 1 ? 'bg-success' : 'bg-secondary'">
+                  {{ carro.idStatusVeiculo === 1 ? 'Disponível' : 'Vendido' }}
+                </span>
+              </td>
               <td class="text-end">
                 <button class="btn btn-sm btn-outline-primary me-2" (click)="openModal(carro)">
                   <i class="fas fa-edit"></i> Editar

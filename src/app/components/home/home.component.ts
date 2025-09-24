@@ -20,7 +20,9 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     // Pega os 3 primeiros carros do serviço para usar como destaque
     this.carroService.getCarros().subscribe(carros => {
-      this.carrosExibidos = carros.slice(0, 3);
+      // Exibe apenas veículos disponíveis (status = 1)
+      const disponiveis = (carros || []).filter(c => c.idStatusVeiculo === 1);
+      this.carrosExibidos = disponiveis.slice(0, 3);
     });
   }
 }
